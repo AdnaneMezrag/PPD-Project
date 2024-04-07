@@ -1,0 +1,11 @@
+you need to install several react native libraries for yellowApp to work because it uses navigation bar.
+Use the commands below in the VScode terminal to install these libraries:
+(make sure your filepath leads to yellow app, for example :\Users\UserName\Desktop\yellowApp  --- use 'cd' commands to change directory to yellow app. example: cd Desktop then cd yellowApp) 
+
+-npm install @react-navigation/native
+
+-npx expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+
+-npm install @react-navigation/stack
+
+-npm install @react-navigation/bottom-tabs
