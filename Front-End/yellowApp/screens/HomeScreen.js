@@ -1,14 +1,13 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
+import GoToButton from '../components/GoToButton'
+
 
 const HomeScreen=({navigation}) => {
     return(
         <View style={styles.container}>
             <Text> Home Screen</Text>
-            <Button
-             title="Click here"
-             onPress={() => alert('Button Clicked!')}
-             />
+            <GoToButton screenName="HeartRate"/>
         </View>
     );
 }

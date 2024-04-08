@@ -3,12 +3,14 @@ import {View, Text, Button,Image, TouchableOpacity, StyleSheet} from 'react-nati
 
 import HomeScreen from '../screens/HomeScreen';
 import MeScreen from '../screens/MeScreen';
-import FloatingButton from '../components/FloatingButton';
+import HeartRateScreen from '../screens/HeartRateScreen';
+import BloodSugarScreen from '../screens/BloodSugarScreen';
+
 
 
 const Tab = createBottomTabNavigator();
 
-
+/* unnessary
 const CustomTabBarButton = ({ children, onPress}) => (
     <TouchableOpacity
     style={{
@@ -29,7 +31,7 @@ const CustomTabBarButton = ({ children, onPress}) => (
         </View>
     </TouchableOpacity>
 );
-
+*/
 const Tabs = () => {
     return(
         <Tab.Navigator
@@ -62,7 +64,46 @@ const Tabs = () => {
                         />
                         <Text
                         style={{color:focused ? '#e32f45' : '#748c94', fontSize: 12}}>
-                        HOME
+                        Home
+                        </Text>
+                    </View>
+                ),
+            }}/> 
+            <Tab.Screen name="HeartRate" component={HeartRateScreen} options={{
+                tabBarIcon: ({focused}) =>(
+                    <View style={{alignItems: 'center', justifyContent: 'center', top : 10}}>
+                        <Image
+                        source={require('../assets/heartRate.png')}
+                        resizeMode='contain'
+                        style={{
+                            width: 25,
+                            height:25,
+                            tintColor: focused ? '#e32f45' : '#748c94'
+                        }}
+                        />
+                        <Text
+                        style={{color:focused ? '#e32f45' : '#748c94', fontSize: 12}}>
+                        Heart Rate
+                        </Text>
+                    </View>
+                ),
+            }}/> 
+            
+            <Tab.Screen name="BloodSugar" component={BloodSugarScreen} options={{
+                tabBarIcon: ({focused}) =>(
+                    <View style={{alignItems: 'center', justifyContent: 'center', top : 10}}>
+                        <Image
+                        source={require('../assets/bloodSugar.png')}
+                        resizeMode='contain'
+                        style={{
+                            width: 25,
+                            height:25,
+                            tintColor: focused ? '#e32f45' : '#748c94'
+                        }}
+                        />
+                        <Text
+                        style={{color:focused ? '#e32f45' : '#748c94', fontSize: 12}}>
+                        Blood Sugar
                         </Text>
                     </View>
                 ),
