@@ -6,7 +6,11 @@ import MeScreen from '../screens/MeScreen';
 import HeartRateScreen from '../screens/HeartRateScreen';
 import BloodSugarScreen from '../screens/BloodSugarScreen';
 
-
+// to hide buttons inside bottom tab, just use  tabBarButton: () => null
+// like this <Tab.Screen name="HeartRate" component={HeartRateScreen} options={{
+ //   tabBarButton: () => null
+               
+//}}/> 
 
 const Tab = createBottomTabNavigator();
 
@@ -51,6 +55,7 @@ const Tabs = () => {
         }}
         >
             <Tab.Screen name="Home" component={HomeScreen} options={{
+                
                 tabBarIcon: ({focused}) =>(
                     <View style={{alignItems: 'center', justifyContent: 'center', top : 10}}>
                         <Image
@@ -69,44 +74,31 @@ const Tabs = () => {
                     </View>
                 ),
             }}/> 
-            <Tab.Screen name="HeartRate" component={HeartRateScreen} options={{
+            <Tab.Screen name="HomeLogo" component={HomeScreen} options={{
+                
                 tabBarIcon: ({focused}) =>(
                     <View style={{alignItems: 'center', justifyContent: 'center', top : 10}}>
                         <Image
-                        source={require('../assets/heartRate.png')}
+                        source={require('../assets/healthCheck.png')}
                         resizeMode='contain'
                         style={{
-                            width: 25,
-                            height:25,
-                            tintColor: focused ? '#e32f45' : '#748c94'
+                            width: 70,
+                            height:70,
+                            marginBottom: 20,
+                            tintColor: focused ? '#e32f45' : '#2596be'
                         }}
                         />
-                        <Text
-                        style={{color:focused ? '#e32f45' : '#748c94', fontSize: 12}}>
-                        Heart Rate
-                        </Text>
+                       
                     </View>
                 ),
             }}/> 
+            <Tab.Screen name="HeartRate" component={HeartRateScreen} options={{
+                tabBarButton: () => null
+               
+            }}/> 
             
             <Tab.Screen name="BloodSugar" component={BloodSugarScreen} options={{
-                tabBarIcon: ({focused}) =>(
-                    <View style={{alignItems: 'center', justifyContent: 'center', top : 10}}>
-                        <Image
-                        source={require('../assets/bloodSugar.png')}
-                        resizeMode='contain'
-                        style={{
-                            width: 25,
-                            height:25,
-                            tintColor: focused ? '#e32f45' : '#748c94'
-                        }}
-                        />
-                        <Text
-                        style={{color:focused ? '#e32f45' : '#748c94', fontSize: 12}}>
-                        Blood Sugar
-                        </Text>
-                    </View>
-                ),
+                 tabBarButton: () => null
             }}/> 
             
              
