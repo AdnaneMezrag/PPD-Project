@@ -8,6 +8,7 @@ const HomeScreen=({navigation}) => {
         <View style={styles.container}>
             <Text> Home Screen</Text>
             <GoToButton screenName="HeartRate"/>
+            <GoToButton screenName="BloodSugar"/>
         </View>
     );
 }

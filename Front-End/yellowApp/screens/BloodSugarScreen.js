@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, ScrollView,Alert } from 'react-native';
 
 const BloodSugarScreen = () => {
   const [bloodSugarLevel, setBloodSugarLevel] = useState('');
@@ -7,6 +7,34 @@ const BloodSugarScreen = () => {
   const [age, setAge] = useState('');
   const [unit, setUnit] = useState('mg/dL');
   const [status, setStatus] = useState('');
+
+  const handleSubmission = () => {
+    // Check if any field is empty
+    if (!bloodSugarLevel || !sex || !age || !status) {
+      Alert.alert('Error', 'Please enter all data.');
+      return;
+    }
+
+    // Convert age to number
+    const userAge = parseInt(age);
+
+    // Perform blood sugar level comparison logic here
+    // For demonstration purposes, I'm assuming normal blood sugar level ranges
+    const normalBloodSugarRange = { 'mg/dL': { min: 70, max: 140 }, 'mmol/L': { min: 3.9, max: 7.8 } };
+
+    let message;
+    const bloodSugarLevelInMgDl = unit === 'mmol/L' ? parseFloat(bloodSugarLevel) * 18 : parseFloat(bloodSugarLevel);
+    
+    if (bloodSugarLevelInMgDl < normalBloodSugarRange[unit].min || bloodSugarLevelInMgDl > normalBloodSugarRange[unit].max) {
+      message = 'Your blood sugar level is abnormal. Please consult a doctor as soon as possible.';
+    } else {
+      message = 'Your blood sugar level is normal.';
+    }
+
+    // Display result notification
+    Alert.alert('Blood Sugar Result', message);
+  };
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -81,7 +109,7 @@ const BloodSugarScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmission}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>

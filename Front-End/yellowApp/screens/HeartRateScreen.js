@@ -1,10 +1,37 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, ScrollView,Alert } from 'react-native';
 
 const HeartRateScreen = () => {
   const [heartRate, setHeartRate] = useState('');
   const [sex, setSex] = useState('');
   const [age, setAge] = useState('');
+
+  const handleSubmission = () => {
+    // Check if any field is empty
+    if (!heartRate || !sex || !age) {
+      Alert.alert('Error', 'Please enter all data.');
+      return;
+    }
+
+    // Convert age to number
+    const userAge = parseInt(age);
+
+    // Perform heart rate comparison logic here
+    // For demonstration purposes, I'm assuming normal heart rate ranges
+    const normalHeartRateRange = { male: { min: 60, max: 100 }, female: { min: 65, max: 105 } };
+
+    let message;
+    if (sex === 'Male' && (heartRate < normalHeartRateRange.male.min || heartRate > normalHeartRateRange.male.max)) {
+      message = 'Your heart rate is abnormal for your age and sex. Please consult a doctor as soon as possible.';
+    } else if (sex === 'Female' && (heartRate < normalHeartRateRange.female.min || heartRate > normalHeartRateRange.female.max)) {
+      message = 'Your heart rate is abnormal for your age and sex. Please consult a doctor as soon as possible.';
+    } else {
+      message = 'Your heart rate is normal and healthy.';
+    }
+
+    // Display result notification
+    Alert.alert('Heart Rate Result', message);
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -47,7 +74,7 @@ const HeartRateScreen = () => {
           keyboardType="numeric"
         />
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmission}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
