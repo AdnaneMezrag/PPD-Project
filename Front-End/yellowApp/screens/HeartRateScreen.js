@@ -15,45 +15,45 @@ const HeartRateScreen = () => {
   const [sex, setSex] = useState("");
   const [age, setAge] = useState("");
 
-  const handleSubmission = () => {
+
+
+
+
+
+  const handleSubmissionInBackEnd = async () => {
     // Check if any field is empty
     if (!heartRate || !sex || !age) {
       Alert.alert("Error", "Please enter all data.");
       return;
     }
 
-    // Convert age to number
-    const userAge = parseInt(age);
 
-    // Perform heart rate comparison logic here
-    // For demonstration purposes, I'm assuming normal heart rate ranges
-    const normalHeartRateRange = {
-      male: { min: 60, max: 100 },
-      female: { min: 65, max: 105 },
-    };
 
-    let message;
-    if (
-      sex === "Male" &&
-      (heartRate < normalHeartRateRange.male.min ||
-        heartRate > normalHeartRateRange.male.max)
-    ) {
-      message =
-        "Your heart rate is abnormal for your age and sex. Please consult a doctor as soon as possible.";
-    } else if (
-      sex === "Female" &&
-      (heartRate < normalHeartRateRange.female.min ||
-        heartRate > normalHeartRateRange.female.max)
-    ) {
-      message =
-        "Your heart rate is abnormal for your age and sex. Please consult a doctor as soon as possible.";
-    } else {
-      message = "Your heart rate is normal and healthy.";
+//=======================================Back-End=============================================
+    try {
+      const response = await fetch('http://192.168.1.2:4000/api/HeartRate', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ heartRate}), // Include heart rate, sex, and age
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit heart rate data');
+      }
+
+      const responseData = await response.json();
+      Alert.alert("Heart Rate Result", responseData.message); // Display server response message
+    } catch (error) {
+      console.error('Error:', error.message);
+      Alert.alert("Error", "Failed to submit heart rate data. Please try again.");
     }
-
-    // Display result notification
-    Alert.alert("Heart Rate Result", message);
   };
+//=================================================================================================
+
+
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -105,7 +105,7 @@ const HeartRateScreen = () => {
           keyboardType="numeric"
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleSubmission}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmissionInBackEnd}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>

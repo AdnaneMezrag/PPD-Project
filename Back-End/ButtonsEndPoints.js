@@ -1,8 +1,10 @@
 const express = require("express");
 
+const bodyParser = require('body-parser');
+
 const router = express.Router();
 
-const HeartRate = {HeartRate:5};
+router.use(bodyParser.json());
 
 
 router.get("/", (req, res) => {
@@ -11,14 +13,17 @@ router.get("/", (req, res) => {
 
 function isHeartRateOk(CurrentHeartRate){
     if(CurrentHeartRate <= 100 && CurrentHeartRate >= 60){
-        return true;
+        return "Good";
     }
-    return false;
+    return "Bad";
 }
 
 router.post("/HeartRate",(req,res)=>{
-    isHeartRateOk(req.body);
+    const {heartRate} = req.body;
+    const HeartRateResult = isHeartRateOk(heartRate);
     console.log("Data sent successfuly")
+    res.json({message:HeartRateResult});
+
 })
 
 module.exports = router;
