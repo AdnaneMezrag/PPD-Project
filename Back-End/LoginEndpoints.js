@@ -2,6 +2,9 @@ const expres = require("express");
 
 const router = expres.Router();
 
+module.exports = router;
+
+/*
 // db
 
 const { Client } = require("pg");
@@ -54,7 +57,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-module.exports = router;
 
 // id |     name      |       email       |    password    | age | gender | date_of_birth
 // ----+---------------+-------------------+----------------+-----+--------+---------------
@@ -62,3 +64,4 @@ module.exports = router;
 //   2 | Jane Smith    | jane@example.com  | securepassword |  25 | female | 1997-10-20
 //   3 | Alice Johnson | alice@example.com | strongpassword |  35 | female | 1987-03-10
 //   4 | Bob Brown     | bob@example.com   | password123    |  40 | male   | 1982-11-25
+*/
