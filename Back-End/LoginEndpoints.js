@@ -2,6 +2,8 @@ const expres = require("express");
 
 const router = expres.Router();
 
+module.exports = router;
+
 // db
 
 const { Client } = require("pg");
@@ -53,7 +55,6 @@ router.get("/", async (req, res) => {
     res.send("ERROR");
   }
 });
-
 module.exports = router;
 
 // id |     name      |       email       |    password    | age | gender | date_of_birth

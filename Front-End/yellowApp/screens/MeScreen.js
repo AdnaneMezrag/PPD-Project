@@ -1,251 +1,159 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  Switch,
-  Image,
-} from 'react-native';
-import FeatherIcon from '@expo/vector-icons/Feather';
+import { View, Text, StyleSheet, Switch, TouchableOpacity,ScrollView} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
-export default function MeScreen() {
-  const [form, setForm] = useState({
-    darkMode: false,
-    emailNotifications: true,
-    pushNotifications: false,
-  });
+const MeScreen = () => {
+    const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+    const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(false);
+      
+    const toggleDarkMode = () => {
+     setDarkModeEnabled(!darkModeEnabled);
+    };
+      
+    const toggleEmailNotifications = () => {
+     setEmailNotificationsEnabled(!emailNotificationsEnabled);
+    };
+      
+   const navigateToLanguagePage = () => {
+   console.log('Navigating to language selection page');
+   };
+
+   const [selectedLanguage, setSelectedLanguage] = useState('English');
+
+   const languages = ['English', 'Arabic', 'French'];
+
+   const handleLanguageChange = (language) => {
+    setSelectedLanguage(language);
+  };
+
+  const [name,setName] = useState("name");
+  const [lastname,setLastame] = useState("lastname");
+  const [age,setAge] = useState("age");
+  const [id,setId] = useState("id");
+  const [email,setEmail] = useState("email");
+
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <View style={styles.container}>
-        <View style={styles.profile}>
-          <TouchableOpacity
-            onPress={() => {
-              // handle onPress
-            }}>
-            <View style={styles.profileAvatarWrapper}>
-              <Image
-                alt=""
-                source={require('../assets/mePage2.png')}
-                style={styles.profileAvatar} />
-
-              <TouchableOpacity
-                onPress={() => {
-                  // handle onPress
-                }}>
-                <View style={styles.profileAction}>
-                  <FeatherIcon
-                    color="#fff"
-                    name="edit-3"
-                    size={15} />
-                </View>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-
-          <View>
-            <Text style={styles.userName}>UserName</Text>
-
-            <Text style={styles.userID}>
-              User id 
-            </Text>
-          </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>User Information</Text>
+      <View style={styles.userInfoContainer}>
+        <View style={styles.userInfoRow}>
+          <Text style={styles.label}>Name:</Text>
+          <Text style={styles.value}>{name}</Text>
         </View>
-
-        <ScrollView>
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Preferences</Text>
-
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}
-              style={styles.row}>
-              <View style={[styles.rowIcon, { backgroundColor: '#fe9400' }]}>
-                <FeatherIcon color="#fff" name="globe" size={20} />
-              </View>
-
-              <Text style={styles.rowLabel}>Language</Text>
-
-              <View style={styles.rowSpacer} />
-
-              <FeatherIcon
-                color="#C6C6C6"
-                name="chevron-right"
-                size={20} />
-            </TouchableOpacity>
-
-            <View style={styles.row}>
-              <View style={[styles.rowIcon, { backgroundColor: '#007afe' }]}>
-                <FeatherIcon color="#fff" name="moon" size={20} />
-              </View>
-
-              <Text style={styles.rowLabel}>Dark Mode</Text>
-
-              <View style={styles.rowSpacer} />
-
-              <Switch
-                onValueChange={darkMode => setForm({ ...form, darkMode })}
-                value={form.darkMode} />
-            </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}
-              style={styles.row}>
-              <View style={[styles.rowIcon, { backgroundColor: '#32c759' }]}>
-                <FeatherIcon
-                  color="#fff"
-                  name="navigation"
-                  size={20} />
-              </View>
-
-              <Text style={styles.rowLabel}>Location</Text>
-
-              <View style={styles.rowSpacer} />
-
-              <FeatherIcon
-                color="#C6C6C6"
-                name="chevron-right"
-                size={20} />
-            </TouchableOpacity>
-
-            <View style={styles.row}>
-              <View style={[styles.rowIcon, { backgroundColor: '#38C959' }]}>
-                <FeatherIcon
-                  color="#fff"
-                  name="at-sign"
-                  size={20} />
-              </View>
-
-              <Text style={styles.rowLabel}>Email Notifications</Text>
-
-              <View style={styles.rowSpacer} />
-
-              <Switch
-                onValueChange={emailNotifications =>
-                  setForm({ ...form, emailNotifications })
-                }
-                value={form.emailNotifications} />
-            </View>
-
-            <View style={styles.row}>
-              <View style={[styles.rowIcon, { backgroundColor: '#38C959' }]}>
-                <FeatherIcon color="#fff" name="bell" size={20} />
-              </View>
-
-              <Text style={styles.rowLabel}>Push Notifications</Text>
-
-              <View style={styles.rowSpacer} />
-
-              <Switch
-                onValueChange={pushNotifications =>
-                  setForm({ ...form, pushNotifications })
-                }
-                value={form.pushNotifications} />
-            </View>
-          </View>
-
-          
-          
-        </ScrollView>
+        <View style={styles.userInfoRow}>
+          <Text style={styles.label}>Last Name:</Text>
+          <Text style={styles.value}>{lastname}</Text>
+        </View>
+        <View style={styles.userInfoRow}>
+          <Text style={styles.label}>Age:</Text>
+          <Text style={styles.value}>{age}</Text>
+        </View>
+        <View style={styles.userInfoRow}>
+          <Text style={styles.label}>ID:</Text>
+          <Text style={styles.value}>{id}</Text>
+        </View>
+        <View style={styles.userInfoRow}>
+          <Text style={styles.label}>Email:</Text>
+          <Text style={styles.value}>{email}</Text>
+        </View>
       </View>
-    </SafeAreaView>
+      
+
+      <View style={styles.container}>
+        <Text style = {{fontSize: 25,fontWeight: 'bold',marginBottom: 10,color :'green',top : 70,justifyContent : 'center',alignSelf : 'center'}}>Preferences</Text>
+      <TouchableOpacity style={styles.option} onPress={navigateToLanguagePage}>
+        <Text style={styles.optionText}>Choose Language</Text>
+        <Picker
+        selectedValue={selectedLanguage}
+        onValueChange={handleLanguageChange}
+        style={styles.picker}
+      >
+        {languages.map((language, index) => (
+          <Picker.Item key={index} label={language} value={language} />
+        ))}
+      </Picker>
+      </TouchableOpacity>
+
+      <View style={styles.option}>
+        <Text style={styles.optionText}>Dark Mode</Text>
+        <Switch
+          value={darkModeEnabled}
+          onValueChange={toggleDarkMode}
+        />
+      </View>
+
+      <View style={styles.option}>
+        <Text style={styles.optionText}>Email Notifications</Text>
+        <Switch
+          value={emailNotificationsEnabled}
+          onValueChange={toggleEmailNotifications}
+        />
+      </View>
+    </View>
+    {/* Add padding to the bottom of the form container */}
+    <View style={{ paddingBottom: 300 }} />
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    padding: 0,
     flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
+    padding: 20,
+    backgroundColor: 'midnightblue',
   },
-  /** Profile */
-  profile: {
-    padding: 24,
-    backgroundColor: '#fff',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color :'green',
+    justifyContent : 'center',
+    alignSelf : 'center',
+    top : 30
   },
-  profileAvatarWrapper: {
-    position: 'relative',
+  userInfoContainer: {
+    marginBottom: 20,
+    top : 35
   },
-  profileAvatar: {
-    width: 72,
-    height: 72,
-    borderRadius: 9999,
-  },
-  profileAction: {
-    position: 'absolute',
-    right: -4,
-    bottom: -10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 28,
-    height: 28,
-    borderRadius: 9999,
-    backgroundColor: '#007bff',
-  },
-  userName: {
-    marginTop: 20,
-    fontSize: 19,
-    fontWeight: '600',
-    color: '#414d63',
-    textAlign: 'center',
-  },
-  userID: {
-    marginTop: 5,
-    fontSize: 16,
-    color: '#989898',
-    textAlign: 'center',
-  },
-  /** Section */
-  section: {
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    paddingVertical: 12,
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#9e9e9e',
-    textTransform: 'uppercase',
-    letterSpacing: 1.1,
-  },
-  /** Row */
-  row: {
+  userInfoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent : 'center',
+    marginBottom: 10,
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginRight: 10,
+    color : 'white'
+  },
+  value: {
+    fontSize: 18,
+    color : 'grey'
+  },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    backgroundColor : 'grey',
+    borderRadius : 15,
+    width : 300,
+    height : 35,
+    top : 110
+  },
+  optionText: {
+    fontSize: 18,
+    color : 'white',
+    fontWeight : 'bold',
+    borderRadius : 10,
+    
+  },
+  picker: {
+    flex: 1,
     height: 50,
-    backgroundColor: '#f2f2f2',
-    borderRadius: 8,
-    marginBottom: 12,
-    paddingLeft: 12,
-    paddingRight: 12,
-  },
-  rowIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 9999,
-    marginRight: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  rowLabel: {
-    fontSize: 17,
-    fontWeight: '400',
-    color: '#0c0c0c',
-  },
-  rowSpacer: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
   },
 });
+
+export default MeScreen;
