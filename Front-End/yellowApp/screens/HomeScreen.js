@@ -6,9 +6,9 @@ import GoToButton from '../components/GoToButton'
 const HomeScreen=({navigation}) => {
     return(
         <View style={styles.container}>
-            <Text> Home Screen</Text>
-            <GoToButton screenName="HeartRate"/>
-            <GoToButton screenName="BloodSugar"/>
+            
+            <GoToButton screenName="HeartRate" source={require('../assets/heartRate2.png')}/>
+            <GoToButton screenName="BloodSugar" source={require('../assets/bloodSugar.png')}/>
         </View>
     );
 }
