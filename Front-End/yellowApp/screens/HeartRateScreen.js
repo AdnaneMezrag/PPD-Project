@@ -31,7 +31,8 @@ const HeartRateScreen = () => {
 
 //=======================================Back-End=============================================
     try {
-      const response = await fetch('http://192.168.1.2:4000/api/HeartRate', {
+      
+      const response = await fetch('http://192.168.135.60:4000/api/HeartRate', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
