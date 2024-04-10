@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -19,6 +19,7 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userAdded, setUserAdded] = useState(false);
 
   const handleSignUp = async () => {
     // Check if any field is empty
@@ -30,7 +31,8 @@ export default function Signup() {
     try {
       const bd = new Date("1/1/2000");
 
-      const response = await axios.post("http://localhost:4000/api/signup", {
+      const response = await axios.post("http://192.168.1.42:4000/api/signup", {
+        // ip config
         email: email,
         password: password,
         username: username,
@@ -38,8 +40,23 @@ export default function Signup() {
         age: 20,
         gender: "male",
       });
+      setUserAdded(response.data.userAdded);
 
-      console.log(response);
+      if (response.data.userAdded) {
+        Alert.alert(
+          "Alert",
+          "User Added successfully",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+          { cancelable: false }
+        );
+      } else {
+        Alert.alert(
+          "Alert",
+          "A user with the email: '" + email + "' already exists",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+          { cancelable: false }
+        );
+      }
     } catch (error) {
       console.error("Error:", error.message); // Log the error message
     }
@@ -48,6 +65,7 @@ export default function Signup() {
     console.log("Username:", username);
     console.log("Email:", email);
     console.log("Password:", password);
+
     // Example: Register new user
     // authService.register(username, email, password)
     //   .then(response => {
