@@ -52,7 +52,29 @@ export default function Login() {
           gender: response.data.gender,
           birthday: response.data.birthday,
         });
-        // THIS User needs to be exported to other comps that will use it @KacimiMohamedMoundir
+        // THIS User needs to be exported to other comps that will use it
+        // use pgSQL's SQL Shell to Create a local data base with the following configs :
+        //=================
+        // host: "localhost",
+        // password: "123",
+        // user: "postgres",
+        // database: "ppd",
+        // port: "5432",
+        //==================
+        // to do so : CREATE DATABASE ppd;
+        // \c ppd
+        //   CREATE TABLE patients (
+        //     id BIGSERIAL PRIMARY KEY,
+        //     name VARCHAR(50),
+        //     email VARCHAR(50) UNIQUE,
+        //     password VARCHAR(50),
+        //     age INT,
+        //     gender VARCHAR(10) CHECK (gender IN ('male', 'female')),
+        //     date_of_birth DATE CHECK (date_of_birth <= CURRENT_DATE)
+        // );
+        // this will make you able to interact with a real time database hosted on your machine and run the Login & Signup with no
+        // problems
+        // @KacimiMohamedMoundir
       }
     } catch (error) {
       console.error("Login error:", error);
