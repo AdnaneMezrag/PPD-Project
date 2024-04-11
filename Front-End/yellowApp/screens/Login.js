@@ -1,26 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity,Alert} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOut } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  FadeInUp,
+  FadeOut,
+} from "react-native-reanimated";
+import axios from "axios";
 
 export default function Login() {
-
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
- 
-
-  const handleLogin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
+  const handleLogin = async () => {
     // Check if any field is empty
     if (!email || !password) {
       Alert.alert("Error", "Please enter all data.");
       return;
+    }
+    try {
+      const response = await axios.post("http://192.168.1.42:4000/api/login", {
+        email: email,
+        password: password,
+      });
+
+      if (!response.data.userFound) {
+        Alert.alert(
+          "Alert",
+          "Invalid Email or password..",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+          { cancelable: false }
+        );
+        throw new Error("Error logging in");
+      } else {
+        setUser({
+          name: response.data.name,
+          id: response.data.id,
+          email: response.data.email,
+          password: response.data.password,
+          gender: response.data.gender,
+          birthday: response.data.birthday,
+        });
+        // THIS User needs to be exported to other comps that will use it @KacimiMohamedMoundir
       }
-    // Here you can implement your login logic using the email and password states
-    console.log("Email:", email);
-    console.log("Password:", password);
+    } catch (error) {
+      console.error("Login error:", error);
+      throw new Error("An error occurred while logging in.");
+    }
+
     // Example: Authenticate user with email and password
     // authService.login(email, password)
     //   .then(response => {
@@ -36,41 +74,68 @@ export default function Login() {
       {/*title and form*/}
       <View className="h-full w-full absolute">
         <View className="flex items-center">
-          <Animated.Text entering={FadeInUp.duration(100).springify()} style={styles.title}>Log In</Animated.Text>
+          <Animated.Text
+            entering={FadeInUp.duration(100).springify()}
+            style={styles.title}
+          >
+            Log In
+          </Animated.Text>
         </View>
       </View>
 
-
       {/*forms*/}
       <View className="flex items-center">
-        <Animated.View entering={FadeInDown.duration(100).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
+        <Animated.View
+          entering={FadeInDown.duration(100).springify()}
+          className="bg-black/5 p-5 rounded-2xl w-full"
+        >
           <TextInput
             placeholder="Enter Your Email : "
-            placeholderTextColor={'grey'}
+            placeholderTextColor={"grey"}
             style={styles.input}
             value={email}
             onChangeText={setEmail}
           />
         </Animated.View>
-        <Animated.View entering={FadeInDown.delay(200).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
+        <Animated.View
+          entering={FadeInDown.delay(200).springify()}
+          className="bg-black/5 p-5 rounded-2xl w-full"
+        >
           <TextInput
             placeholder="Enter Your Password : "
-            placeholderTextColor={'grey'}
+            placeholderTextColor={"grey"}
             style={styles.input}
             secureTextEntry
             value={password}
             onChangeText={setPassword}
           />
         </Animated.View>
-        <Animated.View entering={FadeInDown.delay(300).springify()} className="w-full">
+        <Animated.View
+          entering={FadeInDown.delay(300).springify()}
+          className="w-full"
+        >
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.titlebtn}>Log In</Text>
           </TouchableOpacity>
         </Animated.View>
-        <Animated.View entering={FadeInDown.delay(400).springify()} style={{ justifyContent: "center", flexDirection: "row", alignItems: "center", top: 20 }}>
-          <Text style={{ fontWeight: 'bold', color: 'tomato' }}>Don't Have An Account ?</Text>
-          <TouchableOpacity onPress={() => { navigation.push('Sign Up') }}>
-            <Text style={{ fontWeight: 'bold', color: 'green' }}>Sign Up</Text>
+        <Animated.View
+          entering={FadeInDown.delay(400).springify()}
+          style={{
+            justifyContent: "center",
+            flexDirection: "row",
+            alignItems: "center",
+            top: 20,
+          }}
+        >
+          <Text style={{ fontWeight: "bold", color: "tomato" }}>
+            Don't Have An Account ?
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push("Sign Up");
+            }}
+          >
+            <Text style={{ fontWeight: "bold", color: "green" }}>Sign Up</Text>
           </TouchableOpacity>
         </Animated.View>
       </View>
@@ -81,39 +146,39 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 20,
-    backgroundColor: 'midnightblue',
+    backgroundColor: "midnightblue",
   },
   title: {
     fontSize: 40,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
     bottom: 160,
-    color: 'white'
+    color: "white",
   },
   input: {
     width: 300,
     height: 35,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 15,
     marginBottom: 20,
     borderRadius: 20,
-    bottom: 50
+    bottom: 50,
   },
   button: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
     width: 300,
     height: 40,
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-    bottom: 20
+    bottom: 20,
   },
   titlebtn: {
     fontSize: 25,
-    fontWeight: 'bold',
-    color: 'white'
-  }
+    fontWeight: "bold",
+    color: "white",
+  },
 });

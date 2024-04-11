@@ -19,12 +19,13 @@ const client = new Client({
 
 client.connect();
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    let userMESSAGE;
-
+    console.log("email " + email + "psw" + password);
+    let userFound;
+    console.log("HERE");
     const table = (await client.query("SELECT * FROM patients;")).rows;
 
     //OR use normal query for better performance (TODO)
@@ -35,12 +36,14 @@ router.get("/", async (req, res) => {
     );
 
     if (!queryResult) {
-      userMESSAGE = "Could not find the user with the said Carendiatls";
-      //     res.status(404).send(userMESSAGE);
-      res.json({ userMESSAGE }); // this message shall be used for informing the user in case of wrong
+      userFound = false;
+      //     res.status(404).send  userFound);
+      res.json({ userFound }); // this message shall be used for informing the user in case of wrong
+      return;
     } else {
-      userMESSAGE = "User found...";
+      userFound = true;
       //   res.send(userMESSAGE); only one result shall be sent at a time
+
       res.json({
         name: queryResult.name,
         id: queryResult.id,
@@ -48,7 +51,7 @@ router.get("/", async (req, res) => {
         password: queryResult.password,
         gender: queryResult.gender,
         birthday: queryResult.date_of_birth,
-        message: userMESSAGE,
+        userFound: userFound,
       });
     }
   } catch (error) {
