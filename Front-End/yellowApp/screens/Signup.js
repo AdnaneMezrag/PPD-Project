@@ -67,7 +67,7 @@ export default function Signup() {
     console.log("Password:", password);
 
     // Example: Register new user
-    authService.login(email, password)
+    authService.register(username, email, password)
     .then(response => {
       // Handle successful login
     navigation.navigate("Home")
