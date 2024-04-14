@@ -67,13 +67,21 @@ export default function Signup() {
     console.log("Password:", password);
 
     // Example: Register new user
-    // authService.register(username, email, password)
-    //   .then(response => {
-    //     // Handle successful registration
-    //   })
-    //   .catch(error => {
-    //     // Handle registration error
-    //   });
+    authService.login(email, password)
+    .then(response => {
+      // Handle successful login
+    navigation.navigate("Home")
+ 
+    })
+   .catch(error => {
+      // Handle login error
+      Alert.alert(
+       "Alert",
+       "Login error..",
+       [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+       { cancelable: false }
+     );
+    });
   };
 
   return (
@@ -150,9 +158,7 @@ export default function Signup() {
             Already Have An Account ?
           </Text>
           <TouchableOpacity
-            onPress={() => {
-              navigation.push("Log In");
-            }}
+            onPress={() => {navigation.navigate("Signup")}}
           >
             <Text style={{ fontWeight: "bold", color: "green" }}>Log In</Text>
           </TouchableOpacity>

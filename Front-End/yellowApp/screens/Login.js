@@ -82,13 +82,21 @@ export default function Login() {
     }
 
     // Example: Authenticate user with email and password
-    // authService.login(email, password)
-    //   .then(response => {
-    //     // Handle successful login
-    //   })
-    //   .catch(error => {
-    //     // Handle login error
-    //   });
+     authService.login(email, password)
+       .then(response => {
+         // Handle successful login
+       navigation.navigate("Home")
+    
+       })
+      .catch(error => {
+         // Handle login error
+         Alert.alert(
+          "Alert",
+          "Login error..",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+          { cancelable: false }
+        );
+       });
   };
 
   return (
@@ -153,9 +161,7 @@ export default function Login() {
             Don't Have An Account ?
           </Text>
           <TouchableOpacity
-            onPress={() => {
-              navigation.push("Sign Up");
-            }}
+            onPress={() => {navigation.navigate("Signup")}}
           >
             <Text style={{ fontWeight: "bold", color: "green" }}>Sign Up</Text>
           </TouchableOpacity>
