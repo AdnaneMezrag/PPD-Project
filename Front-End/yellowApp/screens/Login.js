@@ -30,7 +30,7 @@ export default function Login() {
       return;
     }
     try {
-      const response = await axios.post("http://192.168.1.42:4000/api/login", {
+      const response = await axios.post("http://192.168.135.60:4000/api/login", {
         email: email,
         password: password,
       });
@@ -52,52 +52,16 @@ export default function Login() {
           gender: response.data.gender,
           birthday: response.data.birthday,
         });
-        // THIS User needs to be exported to other comps that will use it
-        // use pgSQL's SQL Shell to Create a local data base with the following configs :
-        //=================
-        // host: "localhost",
-        // password: "123",
-        // user: "postgres",
-        // database: "ppd",
-        // port: "5432",
-        //==================
-        // to do so : CREATE DATABASE ppd;
-        // \c ppd
-        //   CREATE TABLE patients (
-        //     id BIGSERIAL PRIMARY KEY,
-        //     name VARCHAR(50),
-        //     email VARCHAR(50) UNIQUE,
-        //     password VARCHAR(50),
-        //     age INT,
-        //     gender VARCHAR(10) CHECK (gender IN ('male', 'female')),
-        //     date_of_birth DATE CHECK (date_of_birth <= CURRENT_DATE)
-        // );
-        // this will make you able to interact with a real time database hosted on your machine and run the Login & Signup with no
-        // problems
-        // @KacimiMohamedMoundir
+         navigation.navigate("Home");
+
+
       }
     } catch (error) {
       console.error("Login error:", error);
       throw new Error("An error occurred while logging in.");
     }
 
-    // Example: Authenticate user with email and password
-     authService.login(email, password)
-       .then(response => {
-         // Handle successful login
-       navigation.navigate("Home")
-    
-       })
-      .catch(error => {
-         // Handle login error
-         Alert.alert(
-          "Alert",
-          "Login error..",
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-          { cancelable: false }
-        );
-       });
-  };
+    };
 
   return (
     <View style={styles.container}>

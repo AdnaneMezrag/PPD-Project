@@ -31,7 +31,7 @@ export default function Signup() {
     try {
       const bd = new Date("1/1/2000");
 
-      const response = await axios.post("http://192.168.1.42:4000/api/signup", {
+      const response = await axios.post("http://192.168.135.60:4000/api/signup", {
         // ip config
         email: email,
         password: password,
@@ -65,23 +65,6 @@ export default function Signup() {
     console.log("Username:", username);
     console.log("Email:", email);
     console.log("Password:", password);
-
-    // Example: Register new user
-    authService.register(username, email, password)
-    .then(response => {
-      // Handle successful login
-    navigation.navigate("Home")
- 
-    })
-   .catch(error => {
-      // Handle login error
-      Alert.alert(
-       "Alert",
-       "Login error..",
-       [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-       { cancelable: false }
-     );
-    });
   };
 
   return (
@@ -158,7 +141,7 @@ export default function Signup() {
             Already Have An Account ?
           </Text>
           <TouchableOpacity
-            onPress={() => {navigation.navigate("Signup")}}
+            onPress={() => {navigation.navigate("Login")}}
           >
             <Text style={{ fontWeight: "bold", color: "green" }}>Log In</Text>
           </TouchableOpacity>
