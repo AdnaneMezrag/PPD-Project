@@ -17,12 +17,14 @@ import Animated, {
   FadeOut,
 } from "react-native-reanimated";
 import axios from "axios";
+import { useUser } from "../context/Context";
 
 export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const { updateUser } = useUser();
   const handleLogin = async () => {
     // Check if any field is empty
     if (!email || !password) {
@@ -30,10 +32,13 @@ export default function Login() {
       return;
     }
     try {
-      const response = await axios.post("http://192.168.135.60:4000/api/login", {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://192.168.109.16:4000/api/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
 
       if (!response.data.userFound) {
         Alert.alert(
@@ -44,7 +49,7 @@ export default function Login() {
         );
         throw new Error("Error logging in");
       } else {
-        setUser({
+        updateUser({
           name: response.data.name,
           id: response.data.id,
           email: response.data.email,
@@ -52,16 +57,14 @@ export default function Login() {
           gender: response.data.gender,
           birthday: response.data.birthday,
         });
-         navigation.navigate("Home");
 
-
+        navigation.navigate("Home");
       }
     } catch (error) {
       console.error("Login error:", error);
       throw new Error("An error occurred while logging in.");
     }
-
-    };
+  };
 
   return (
     <View style={styles.container}>
@@ -125,7 +128,9 @@ export default function Login() {
             Don't Have An Account ?
           </Text>
           <TouchableOpacity
-            onPress={() => {navigation.navigate("Signup")}}
+            onPress={() => {
+              navigation.navigate("Signup");
+            }}
           >
             <Text style={{ fontWeight: "bold", color: "green" }}>Sign Up</Text>
           </TouchableOpacity>

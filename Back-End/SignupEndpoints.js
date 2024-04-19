@@ -50,4 +50,10 @@ route.post("/", async (req, res) => {
   }
 });
 
+// route.put("/edit")  editing user info through this endpoint ,  use this query :
+//   const query = {
+//   text: 'UPDATE users SET email = $1 WHERE id = $2',
+//   values: [newEmail, userId],
+// }
+
 module.exports = route;

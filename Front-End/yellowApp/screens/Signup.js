@@ -31,15 +31,18 @@ export default function Signup() {
     try {
       const bd = new Date("1/1/2000");
 
-      const response = await axios.post("http://192.168.135.60:4000/api/signup", {
-        // ip config
-        email: email,
-        password: password,
-        username: username,
-        Dateofbirth: bd,
-        age: 20,
-        gender: "male",
-      });
+      const response = await axios.post(
+        "http://192.168.109.16:4000/api/signup",
+        {
+          // ip config
+          email: email,
+          password: password,
+          username: username,
+          Dateofbirth: bd,
+          age: 20,
+          gender: "male",
+        }
+      );
       setUserAdded(response.data.userAdded);
 
       if (response.data.userAdded) {
@@ -141,7 +144,9 @@ export default function Signup() {
             Already Have An Account ?
           </Text>
           <TouchableOpacity
-            onPress={() => {navigation.navigate("Login")}}
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
           >
             <Text style={{ fontWeight: "bold", color: "green" }}>Log In</Text>
           </TouchableOpacity>
