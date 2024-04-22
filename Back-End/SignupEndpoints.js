@@ -13,10 +13,9 @@ const client = new Client({
   port: "5432",
 
   ssl: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false,
+  },
 
-  
   // host: "localhost",
   // password: "123",
   // user: "postgres",
@@ -62,7 +61,22 @@ route.post("/", async (req, res) => {
   }
 });
 
-// route.put("/edit")  editing user info through this endpoint ,  use this query :
+route.put("/edit", async (req, res) => {
+  try {
+    const user = req.body;
+    const name = user.name;
+    const id = user.id;
+    const age = user.age;
+    const email = user.email;
+
+    const edit = await client.query(
+      "UPDATE patients SET name = $1, email = $2, age = $3 WHERE id = $4",
+      [name, email, age, id]
+    );
+  } catch (error) {
+    console.error("editing error..." + error);
+  }
+});
 //   const query = {
 //   text: 'UPDATE users SET email = $1 WHERE id = $2',
 //   values: [newEmail, userId],

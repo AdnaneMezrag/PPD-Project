@@ -32,14 +32,11 @@ export default function Login() {
       return;
     }
     try {
-      const response = await axios.post(
-        "http://192.168.135.60:4000/api/login",
-        {
-          email: email,
-          password: password,
-        }
-      );
-
+      const response = await axios.post("http://192.168.1.41:4000/api/login", {
+        email: email,
+        password: password,
+      });
+      console.log("TRying....");
       if (!response.data.userFound) {
         Alert.alert(
           "Alert",
@@ -57,7 +54,7 @@ export default function Login() {
           gender: response.data.gender,
           birthday: response.data.birthday,
         });
-
+        console.log("FOUND USER LOGGING IN ...");
         navigation.navigate("Home");
       }
     } catch (error) {

@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Switch, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Switch,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
+import { useUser } from "../context/Context";
 const MeScreen = () => {
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
-  const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(false);
+  const [emailNotificationsEnabled, setEmailNotificationsEnabled] =
+    useState(false);
   const [editMode, setEditMode] = useState(false);
 
   const toggleDarkMode = () => {
@@ -16,16 +26,16 @@ const MeScreen = () => {
   };
 
   const navigateToLanguagePage = () => {
-    console.log('Navigating to language selection page');
+    console.log("Navigating to language selection page");
   };
 
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
-  const languages = ['English', 'Arabic', 'French'];
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const languages = ["English", "Arabic", "French"];
 
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
   };
-
+  const { user, updateUser } = useUser(); // exported user data and are ready to be used
   const [name, setName] = useState("John");
   const [lastname, setLastame] = useState("Doe");
   const [age, setAge] = useState("30");
@@ -35,10 +45,37 @@ const MeScreen = () => {
   const handleEdit = () => {
     setEditMode(!editMode);
   };
+  useEffect(() => {
+    setName(user.name);
+    setLastame("NONE");
+    //setBd(user.birthday);
+    setId(user.id);
+    setEmail(user.email);
+  }, [user]); // rerender whenever the value of the user changes ...
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Save changes here, for example, update the state variables
     setEditMode(false);
+
+    try {
+      const response = axios.put("http://192.168.1.41:4000/api/signup/edit", {
+        name: name,
+        age: age,
+        id: id,
+        email: email,
+      });
+
+      updateUser({
+        name: name,
+        id: id,
+        email: email,
+        password: user.password,
+        gender: user.gender,
+        birthday: user.birthday,
+      });
+
+      console.log(name + " & " + age);
+    } catch (error) {}
   };
 
   return (
@@ -72,11 +109,7 @@ const MeScreen = () => {
         <View style={styles.userInfoRow}>
           <Text style={styles.label}>Age:</Text>
           {editMode ? (
-            <TextInput
-              style={styles.input}
-              value={age}
-              onChangeText={setAge}
-            />
+            <TextInput style={styles.input} value={age} onChangeText={setAge} />
           ) : (
             <Text style={styles.value}>{age}</Text>
           )}
@@ -87,7 +120,7 @@ const MeScreen = () => {
             <TextInput
               style={styles.input}
               value={id}
-              onChangeText={setId}
+              // onChangeText={setId}
             />
           ) : (
             <Text style={styles.value}>{id}</Text>
@@ -107,13 +140,31 @@ const MeScreen = () => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.editButton} onPress={editMode ? handleSave : handleEdit}>
-        <Text style={styles.editButtonText}>{editMode ? 'Save' : 'Edit'}</Text>
+      <TouchableOpacity
+        style={styles.editButton}
+        onPress={editMode ? handleSave : handleEdit}
+      >
+        <Text style={styles.editButtonText}>{editMode ? "Save" : "Edit"}</Text>
       </TouchableOpacity>
 
       <View style={styles.container}>
-        <Text style={{ fontSize: 25, fontWeight: 'bold', marginBottom: 10, color: 'green', top: 70, justifyContent: 'center', alignSelf: 'center' }}>Preferences</Text>
-        <TouchableOpacity style={styles.option} onPress={navigateToLanguagePage}>
+        <Text
+          style={{
+            fontSize: 25,
+            fontWeight: "bold",
+            marginBottom: 10,
+            color: "green",
+            top: 70,
+            justifyContent: "center",
+            alignSelf: "center",
+          }}
+        >
+          Preferences
+        </Text>
+        <TouchableOpacity
+          style={styles.option}
+          onPress={navigateToLanguagePage}
+        >
           <Text style={styles.optionText}>Choose Language</Text>
           <Picker
             selectedValue={selectedLanguage}
@@ -128,10 +179,7 @@ const MeScreen = () => {
 
         <View style={styles.option}>
           <Text style={styles.optionText}>Dark Mode</Text>
-          <Switch
-            value={darkModeEnabled}
-            onValueChange={toggleDarkMode}
-          />
+          <Switch value={darkModeEnabled} onValueChange={toggleDarkMode} />
         </View>
 
         <View style={styles.option}>
@@ -150,77 +198,76 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#8fcbbc',
+    backgroundColor: "#8fcbbc",
   },
   title: {
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    color: 'green',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    top: 30
+    color: "green",
+    justifyContent: "center",
+    alignSelf: "center",
+    top: 30,
   },
   userInfoContainer: {
     marginBottom: 20,
     top: 40,
   },
   userInfoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 10,
   },
   label: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginRight: 10,
-    color: 'white'
+    color: "white",
   },
   value: {
     fontSize: 18,
-    color: 'grey'
+    color: "grey",
   },
   input: {
     fontSize: 18,
-    color: 'grey',
+    color: "grey",
     borderWidth: 1,
-    borderColor: 'grey',
+    borderColor: "grey",
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
   editButton: {
-    backgroundColor: 'orange',
+    backgroundColor: "orange",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginVertical: 20,
-    top : 20,
+    top: 20,
   },
   editButtonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
-    backgroundColor: 'grey',
+    backgroundColor: "grey",
     borderRadius: 15,
     width: 300,
     height: 35,
-    top: 100
+    top: 100,
   },
   optionText: {
     fontSize: 18,
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     borderRadius: 10,
-
   },
   picker: {
     flex: 1,

@@ -15,9 +15,8 @@ const client = new Client({
   port: "5432",
 
   ssl: {
-    rejectUnauthorized: false
-  }
-
+    rejectUnauthorized: false,
+  },
 
   // host: "localhost",
   // password: "123",
