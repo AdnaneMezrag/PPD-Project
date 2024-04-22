@@ -32,7 +32,7 @@ export default function Signup() {
       const bd = new Date("1/1/2000");
 
       const response = await axios.post(
-        "http://192.168.109.16:4000/api/signup",
+        "http://192.168.135.60:4000/api/signup",
         {
           // ip config
           email: email,
