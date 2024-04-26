@@ -15,7 +15,7 @@ function GoToButton({ screenName,source }) {
   return (
    <TouchableOpacity onPress={() => navigation.navigate(screenName)} style={[styles.buttonContainer, styles.shadow]}>
    <Image source={source} style = {styles.image}></Image>
-    <Text style = {styles.buttonText}>Go to {screenName}</Text>
+    <Text style = {styles.buttonText}>{screenName} Tracker</Text>
     
     
    </TouchableOpacity>

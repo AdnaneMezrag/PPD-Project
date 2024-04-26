@@ -9,12 +9,20 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import { LineChart } from "react-native-chart-kit";
+import GoBackArrow from "../components/GoBackArrow";
 
 const HeartRateScreen = () => {
   const [heartRate, setHeartRate] = useState("");
   const [sex, setSex] = useState("");
   const [age, setAge] = useState("");
-
+  const [heartRateHistory, setHeartRateHistory] = useState([
+    { time: "04-06", heartRate: 70 },
+    { time: "04-09 ", heartRate: 75 },
+    { time: "04-10 ", heartRate: 72 },
+    { time: "04-12 ", heartRate: 78 },
+    // Add more sample data as needed
+  ]);
 
 
 
@@ -22,7 +30,7 @@ const HeartRateScreen = () => {
 
   const handleSubmissionInBackEnd = async () => {
     // Check if any field is empty
-    if (!heartRate || !sex || !age) {
+    if (!heartRate) {
       Alert.alert("Error", "Please enter all data.");
       return;
     }
@@ -32,7 +40,7 @@ const HeartRateScreen = () => {
 //=======================================Back-End=============================================
     try {
       
-      const response = await fetch('http://192.168.135.60:4000/api/HeartRate', {
+      const response = await fetch('http://192.168.1.18:4000/api/HeartRate', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,6 +58,22 @@ const HeartRateScreen = () => {
       console.error('Error:', error.message);
       Alert.alert("Error", "Failed to submit heart rate data. Please try again.");
     }
+
+    if (!heartRate) {
+      Alert.alert("Error", "Please enter heart rate value.");
+      return;
+  }
+
+  //this part adds new enteries to chart===============
+
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, "0"); // Get month (0-indexed) and pad with leading zero if needed
+  const day = String(now.getDate()).padStart(2, "0"); // Get day of the month and pad with leading zero if needed
+  const time = `${month}-${day}`; // Format as "MM-DD"
+  
+  const newEntry = { time, heartRate: parseInt(heartRate) };
+  setHeartRateHistory([...heartRateHistory, newEntry]);
+  setHeartRate(""); // Clear input field after submission
   };
 //=================================================================================================
 
@@ -58,12 +82,18 @@ const HeartRateScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+       <GoBackArrow
+        screenName="HomeTab" 
+        source={require("../assets/backArrow.png")} 
+
+       />
+      
       <Image
         source={require("../assets/heartRate2.png")}
         style={styles.image}
       />
 
-      <Text style={styles.title}>Enter Heart Rate</Text>
+      <Text style={styles.title}>Heart Rate Tracker</Text>
 
       <View style={styles.form}>
         <Text style={styles.label}>Heart Rate:</Text>
@@ -75,41 +105,57 @@ const HeartRateScreen = () => {
           keyboardType="numeric"
         />
 
-        <Text style={styles.label}>Sex:</Text>
-        <View style={styles.radioContainer}>
-          <TouchableOpacity
-            style={[
-              styles.radioButton,
-              sex === "Male" ? styles.radioButtonSelected : null,
-            ]}
-            onPress={() => setSex("Male")}
-          >
-            <Text style={styles.radioText}>Male</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.radioButton,
-              sex === "Female" ? styles.radioButtonSelected : null,
-            ]}
-            onPress={() => setSex("Female")}
-          >
-            <Text style={styles.radioText}>Female</Text>
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.label}>Age:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter age"
-          onChangeText={(text) => setAge(text)}
-          value={age}
-          keyboardType="numeric"
-        />
+        
 
         <TouchableOpacity style={styles.button} onPress={handleSubmissionInBackEnd}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
+
+
+      { /* chart section */}
+      <View style={{ marginBottom: 20 }}>
+  <Text style={styles.label}>Heart Rate History (last 4 entries)</Text>
+  <LineChart
+    data={{
+      labels: heartRateHistory.slice(-4).map((entry) => entry.time),
+      datasets: [
+        {
+          data: heartRateHistory.slice(-4).map((entry) => entry.heartRate),
+        },
+      ],
+    }}
+    width={300}
+    height={200}
+    yAxisSuffix="bpm"
+    chartConfig={{
+      backgroundColor: "#ffffff",
+      backgroundGradientFrom: "#ffffff",
+      backgroundGradientTo: "#ffffff",
+      decimalPlaces: 0,
+      color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`,
+      labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+      style: {
+        borderRadius: 16,
+      },
+      propsForDots: {
+        r: "6",
+        strokeWidth: "2",
+        stroke: "#ffa726",
+      },
+      xLabelsOffset: -10, // Adjust the offset of X-axis labels
+      xLabelRotation: -60, // Rotate X-axis labels by -60 degrees
+      labelFontSize: 12, // Adjust the font size of X-axis labels
+    }}
+    bezier
+    style={{
+      marginVertical: 8,
+      borderRadius: 16,
+    }}
+  />
+</View>
+      {/* end of chart section */}
+
 
       {/* Add padding to the bottom of the form container */}
       <View style={{ paddingBottom: 300 }} />
