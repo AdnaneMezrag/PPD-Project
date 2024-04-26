@@ -13,3 +13,7 @@ Use the commands below in the VScode terminal to install these libraries:
 -npm install expo@^50.0.15 (to update expo version)
 
 -npx expo install @react-native-picker/picker (for MeScreen by islem else it wont work)
+
+-npm install react-native-chart-kit
+
+-npm install react-native-svg

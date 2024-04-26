@@ -56,16 +56,9 @@ const Tabs = () => {
             }
         }}
         >
-            <Tab.Screen name="Login" component={Login} options={{
-                tabBarButton: () => null
-               
-            }}/> 
-            <Tab.Screen name="Signup" component={Signup} options={{
-                tabBarButton: () => null
-               
-            }}/> 
+            
 
-            <Tab.Screen name="Home" component={HomeScreen} options={{
+            <Tab.Screen name="HomeTab" component={HomeScreen} options={{
                 
                 tabBarIcon: ({focused}) =>(
                     <View style={{alignItems: 'center', justifyContent: 'center', top : 10}}>
@@ -85,7 +78,7 @@ const Tabs = () => {
                     </View>
                 ),
             }}/> 
-            <Tab.Screen name="HomeLogo" component={HomeScreen} options={{
+            <Tab.Screen name="HomeLogoTab" component={HomeScreen} options={{
                 
                 tabBarIcon: ({focused}) =>(
                     <View style={{alignItems: 'center', justifyContent: 'center', top : 10}}>
