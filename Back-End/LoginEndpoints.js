@@ -27,6 +27,16 @@ const client = new Client({
 
 client.connect();
 
+let user = {
+  name: "",
+  id:0,
+  email: "",
+  password: "",
+  gender: "",
+  birthday: "",
+  userFound: "",
+};
+
 router.post("/", async (req, res) => {
   try {
     const email = req.body.email;
@@ -61,13 +71,48 @@ router.post("/", async (req, res) => {
         birthday: queryResult.date_of_birth,
         userFound: userFound,
       });
+
+      //Encapsulating Users Info in User Object
+        user = {
+        name: queryResult.name,
+        id: queryResult.id,
+        email: queryResult.email,
+        password: queryResult.password,
+        gender: queryResult.gender,
+        birthday: queryResult.date_of_birth,
+        userFound: userFound,
+      };
+
+      console.log(user.id);
+      //module.exports = user;
+
     }
+
   } catch (error) {
     res.send("ERROR");
   }
 });
 
-module.exports = router;
+async function getUserInformationToExport() {
+  return new Promise((resolve, reject) => {
+    // Check if user object is filled
+    if (user.userFound) {
+      resolve(user); // Resolve the Promise with the user object
+    } else {
+      // If user object is not filled, wait for a short interval and try again
+      const interval = setInterval(() => {
+        if (user.userFound) {
+          clearInterval(interval);
+          resolve(user); // Resolve the Promise with the user object
+        }
+      }, 100);
+    }
+  });
+}
+module.exports = { router, getUserInformationToExport };
+
+//Exporting User Object
+
 
 // id |     name      |       email       |    password    | age | gender | date_of_birth
 // ----+---------------+-------------------+----------------+-----+--------+---------------
