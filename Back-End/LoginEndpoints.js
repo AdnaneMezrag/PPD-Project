@@ -29,7 +29,7 @@ client.connect();
 
 let user = {
   name: "",
-  id:0,
+  id: 0,
   email: "",
   password: "",
   gender: "",
@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    console.log("email " + email + "psw" + password);
+    console.log("email " + email + " psw " + password);
     let userFound;
     console.log("HERE");
     const table = (await client.query("SELECT * FROM patients;")).rows;
@@ -73,7 +73,7 @@ router.post("/", async (req, res) => {
       });
 
       //Encapsulating Users Info in User Object
-        user = {
+      user = {
         name: queryResult.name,
         id: queryResult.id,
         email: queryResult.email,
@@ -85,9 +85,7 @@ router.post("/", async (req, res) => {
 
       console.log(user.id);
       //module.exports = user;
-
     }
-
   } catch (error) {
     res.send("ERROR");
   }
@@ -112,7 +110,6 @@ async function getUserInformationToExport() {
 module.exports = { router, getUserInformationToExport };
 
 //Exporting User Object
-
 
 // id |     name      |       email       |    password    | age | gender | date_of_birth
 // ----+---------------+-------------------+----------------+-----+--------+---------------
