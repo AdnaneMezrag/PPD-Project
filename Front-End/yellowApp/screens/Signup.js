@@ -1,21 +1,32 @@
-import React, { useState,useEffect} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert,} from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { FadeIn, FadeInDown, FadeInUp } from "react-native-reanimated";
-import { Picker } from '@react-native-picker/picker'; // Import Picker from '@react-native-picker/picker'
-import DatePicker from '@react-native-community/datetimepicker';
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  FadeInUp,
+} from "react-native-reanimated";
+import { Picker } from "@react-native-picker/picker"; // Import Picker from '@react-native-picker/picker'
+import DatePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
+import { useUser } from "../context/Context";
 
 export default function Signup() {
   const navigation = useNavigation();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [sex, setSex] = useState('male'); // Default to male
-  const [dob, setDob] = useState(new Date('1990-01-01'));
-  const [id, setId] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [sex, setSex] = useState("male"); // Default to male
+  const [dob, setDob] = useState(new Date("1990-01-01"));
+  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [firstNameFocused, setFirstNameFocused] = useState(false); // Track email input focus
   const [lastNameFocused, setLastNameFocused] = useState(false); // Track email input focus
@@ -30,18 +41,17 @@ export default function Signup() {
       Alert.alert("Error", "Please enter all data.");
       return;
     }
-    
 
     try {
-      const bd = new Date("1/1/2000");
+      //    const bd = new Date("1/1/2000");
 
-      const response = await axios.post("http://192.168.1.5:4000/api/signup", {
+      const response = await axios.post("http://192.168.1.41:4000/api/signup", {
         // ip config
         email: email,
         password: password,
         username: username,
-        Dateofbirth: bd,
-        age: 20,
+        Dateofbirth: dob,
+        // age: 20,
         gender: "male",
       });
       setUserAdded(response.data.userAdded);
@@ -65,7 +75,6 @@ export default function Signup() {
       console.error("Error:", error.message); // Log the error message
     }
 
-
     // Here you can implement your sign up logic using the states
     console.log("First Name:", firstName);
     console.log("Last Name:", lastName);
@@ -87,11 +96,16 @@ export default function Signup() {
     <View style={styles.container}>
       {/*title and form*/}
       <View style={styles.formContainer}>
-        <Animated.Text entering={FadeInUp.duration(1000).springify()} style={styles.title}>Sign Up</Animated.Text>
+        <Animated.Text
+          entering={FadeInUp.duration(1000).springify()}
+          style={styles.title}
+        >
+          Sign Up
+        </Animated.Text>
 
         {/* Forms */}
         <View style={styles.inputContainer}>
-        <Picker
+          <Picker
             selectedValue={sex}
             style={styles.input}
             onValueChange={(itemValue, itemIndex) => setSex(itemValue)}
@@ -101,7 +115,7 @@ export default function Signup() {
           </Picker>
           <TextInput
             placeholder="First Name"
-            placeholderTextColor={'grey'}
+            placeholderTextColor={"grey"}
             style={styles.input}
             value={firstName}
             onChangeText={setFirstName}
@@ -110,41 +124,42 @@ export default function Signup() {
           />
           <TextInput
             placeholder="Last Name"
-            placeholderTextColor={'grey'}
+            placeholderTextColor={"grey"}
             style={styles.input}
             value={lastName}
             onChangeText={setLastName}
             onFocus={() => setLastNameFocused(false)} // Set email focus to true on focus
             onBlur={() => setLastNameFocused(false)} // Set email focus to false on blur
           />
-<DatePicker
-           style={styles.input}
-           value={dob}
-           mode="date"
-           placeholder="Select Date of Birth"
-           format="YYYY-MM-DD"
-           minDate="1900-01-01"
-           maxDate={new Date()}
-           confirmBtnText="Confirm"
-           cancelBtnText="Cancel"
-           customStyles={{
-             dateIcon: {
-               position: 'absolute',
-               left: 0,
-               top: 4,
-               marginLeft: 0
-             },
-             dateInput: {
-               marginLeft: 36
-             }
-           }}
-           onDateChange={(date) => {
-             setDob(date);
-           }}
+          <DatePicker
+            style={styles.input}
+            value={dob}
+            mode="date"
+            placeholder="Select Date of Birth"
+            format="YYYY-MM-DD"
+            minDate="1900-01-01"
+            maxDate={new Date()}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={{
+              dateIcon: {
+                position: "absolute",
+                left: 0,
+                top: 4,
+                marginLeft: 0,
+              },
+              dateInput: {
+                marginLeft: 36,
+              },
+            }}
+            onDateChange={(date) => {
+              setDob(date);
+            }}
           />
+
           <TextInput
             placeholder="ID"
-            placeholderTextColor={'grey'}
+            placeholderTextColor={"grey"}
             style={styles.input}
             value={id}
             onChangeText={setId}
@@ -154,7 +169,7 @@ export default function Signup() {
           />
           <TextInput
             placeholder="Email"
-            placeholderTextColor={'grey'}
+            placeholderTextColor={"grey"}
             style={styles.input}
             value={email}
             onChangeText={setEmail}
@@ -165,7 +180,7 @@ export default function Signup() {
           />
           <TextInput
             placeholder="Password"
-            placeholderTextColor={'grey'}
+            placeholderTextColor={"grey"}
             style={styles.input}
             value={password}
             onChangeText={setPassword}
@@ -181,7 +196,11 @@ export default function Signup() {
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>Already Have An Account ?</Text>
-          <TouchableOpacity onPress={() => { navigation.push('Log In') }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push("Login");
+            }}
+          >
             <Text style={[styles.footerText, styles.footerLink]}>Log In</Text>
           </TouchableOpacity>
         </View>
@@ -193,33 +212,33 @@ export default function Signup() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#8fcbbc',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#8fcbbc",
   },
   formContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   title: {
     fontSize: 40,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    color: 'white',
+    color: "white",
   },
   inputContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   input: {
     width: 300,
     height: 35,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 15,
     marginBottom: 20,
     borderRadius: 20,
   },
   button: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
     width: 300,
     height: 40,
     borderRadius: 20,
@@ -229,19 +248,19 @@ const styles = StyleSheet.create({
   },
   titlebtn: {
     fontSize: 25,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   footer: {
     flexDirection: "row",
     alignItems: "center",
   },
   footerText: {
-    fontWeight: 'bold',
-    color: 'tomato',
+    fontWeight: "bold",
+    color: "tomato",
   },
   footerLink: {
     marginLeft: 5,
-    color: 'green',
+    color: "green",
   },
 });
