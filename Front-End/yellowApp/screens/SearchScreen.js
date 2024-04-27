@@ -6,12 +6,13 @@ import {
   StyleSheet,
   Alert,
   FlatList,
+  Image,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { RadioButton } from "react-native-paper";
 import axios from "axios";
 import { useUser } from "../context/Context";
-
+// import "../assets/X_for_fail.png";
 const SearchScreen = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -46,7 +47,7 @@ const SearchScreen = () => {
 
     if (selectedOption === "heartRate") {
       const response = await axios.post(
-        "http://192.168.1.41:4000/api/history/heart_rate_history",
+        "http://192.168.1.38:4000/api/history/heart_rate_history",
         {
           idUser: id,
           date: date,
@@ -58,7 +59,7 @@ const SearchScreen = () => {
       updateSearchResult(data.searched);
     } else if (selectedOption == "bloodSugar") {
       const response = await axios.post(
-        "http://192.168.1.41:4000/api/history/blood_sugar_history",
+        "http://192.168.1.38:4000/api/history/blood_sugar_history",
         {
           idUser: id,
           date: date,
@@ -68,6 +69,8 @@ const SearchScreen = () => {
       const data = response.data;
 
       updateSearchResult(data.searched);
+
+      Alert.alert("WARNING", "The Blood Sugar DB is not added yet");
     } else {
       Alert.alert("Alert", "Must Choose An Option");
 
@@ -83,33 +86,45 @@ const SearchScreen = () => {
     <View style={styles.container}>
       <View
         style={{
-          backgroundColor: "dodgerblue",
+          backgroundColor: "white",
           position: "absolute",
-          top: "5%",
+          top: "3%",
           width: "100%", // Corrected width property
-          height: 200, // Example height
+          height: 230, // Example height
           alignItems: "center",
         }}
       >
         {searchResult.length === 0 ? (
           <View
             style={{
-              flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
             <Text
               style={{
-                color: "white",
+                color: "mediumseagreen",
                 position: "relative",
                 top: "15%",
                 fontSize: 13,
               }}
             >
               {" "}
-              No {selectedOption} entries on: {selectedDate.toDateString()}{" "}
+              No {selectedOption === "heartRate"
+                ? "Heart Rate"
+                : "Blood Sugar"}{" "}
+              entries on: {selectedDate.toDateString()}{" "}
             </Text>
+
+            <Image
+              source={require("../assets/X_for_fail.png")}
+              style={{
+                width: 100,
+                height: 100,
+                resizeMode: "contain", // You can adjust resizeMode as needed
+                top: "40%",
+              }}
+            />
           </View>
         ) : (
           <FlatList
@@ -118,17 +133,6 @@ const SearchScreen = () => {
             }}
             data={searchResult}
             renderItem={({ item }) => {
-              // if (searchResult.length === 0) {
-              //   return (
-              //     <View>
-              //       <Text style={{ color: "white" }}>
-              //         {" "}
-              //         You Have No {selectedOption} entries on this day :{" "}
-              //         {selectedDate.toDateString()}{" "}
-              //       </Text>
-              //     </View>
-              //   );
-              // }
               const subDate = new Date(item.datetime);
               console.log(subDate.toDateString());
 
@@ -139,7 +143,8 @@ const SearchScreen = () => {
                       marginTop: 24,
                       padding: 30,
                       fontSize: 15,
-                      backgroundColor: "white",
+                      backgroundColor: "mediumseagreen",
+                      color: "white",
                     }}
                   >
                     {`${subDate.getFullYear()}-${
@@ -151,7 +156,8 @@ const SearchScreen = () => {
                       marginTop: 24,
                       padding: 30,
                       fontSize: 15,
-                      backgroundColor: "white",
+                      backgroundColor: "mediumseagreen",
+                      color: "white",
                     }}
                   >
                     {item.currentheartrate}
@@ -161,7 +167,8 @@ const SearchScreen = () => {
                       marginTop: 24,
                       padding: 30,
                       fontSize: 15,
-                      backgroundColor: "white",
+                      backgroundColor: "mediumseagreen",
+                      color: "white",
                     }}
                   >
                     {item.result}
@@ -221,6 +228,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
+    backgroundColor: "#8fcbbc",
   },
   dateContainer: {
     flexDirection: "row",
@@ -230,9 +238,11 @@ const styles = StyleSheet.create({
   dateLabel: {
     fontSize: 18,
     marginRight: 10,
+    color: "white",
   },
   dateText: {
     fontSize: 20,
+    color: "white",
   },
   radioContainer: {
     flexDirection: "row",
@@ -244,7 +254,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   searchButton: {
-    backgroundColor: "#007bff",
+    backgroundColor: "mediumseagreen",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
