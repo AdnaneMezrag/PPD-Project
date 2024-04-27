@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOut } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  FadeInUp,
+  FadeOut,
+} from "react-native-reanimated";
 import axios from "axios";
 import { useUser } from "../context/Context";
 
 export default function Login() {
-
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const { updateUser } = useUser();
   const [emailFocused, setEmailFocused] = useState(false); // Track email input focus
@@ -24,7 +35,7 @@ export default function Login() {
       return;
     }
     try {
-      const response = await axios.post("http://192.168.1.5:4000/api/login", {
+      const response = await axios.post("http://192.168.1.41:4000/api/login", {
         email: email,
         password: password,
       });
@@ -70,13 +81,18 @@ export default function Login() {
     <View style={styles.container}>
       {/*title and form*/}
       <View style={styles.formContainer}>
-        <Animated.Text entering={FadeInUp.duration(100).springify()} style={styles.title}>Log In</Animated.Text>
+        <Animated.Text
+          entering={FadeInUp.duration(100).springify()}
+          style={styles.title}
+        >
+          Log In
+        </Animated.Text>
 
         {/* Forms */}
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Email : "
-            placeholderTextColor={'grey'}
+            placeholderTextColor={"grey"}
             style={[styles.input, emailFocused && styles.inputFocused]} // Apply focused style if email input is focused
             value={email}
             onChangeText={setEmail}
@@ -85,7 +101,7 @@ export default function Login() {
           />
           <TextInput
             placeholder="Password : "
-            placeholderTextColor={'grey'}
+            placeholderTextColor={"grey"}
             style={[styles.input, passwordFocused && styles.inputFocused]} // Apply focused style if password input is focused
             secureTextEntry
             value={password}
@@ -101,7 +117,11 @@ export default function Login() {
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>Don't Have An Account ?</Text>
-          <TouchableOpacity onPress={() => { navigation.push('Sign Up') }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push("Signup");
+            }}
+          >
             <Text style={[styles.footerText, styles.footerLink]}>Sign Up</Text>
           </TouchableOpacity>
         </View>
@@ -113,39 +133,39 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 20,
-    backgroundColor: '#8fcbbc',
+    backgroundColor: "#8fcbbc",
   },
   formContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   title: {
     fontSize: 40,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
     bottom: 160,
-    color: 'white'
+    color: "white",
   },
   inputContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   input: {
     width: 300,
     height: 35,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 15,
     marginBottom: 20,
     borderRadius: 20,
   },
   inputFocused: {
     borderWidth: 2, // Add border width when input is focused
-    borderColor: 'green', // Change border color when input is focused
+    borderColor: "green", // Change border color when input is focused
   },
   button: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
     width: 300,
     height: 40,
     borderRadius: 20,
@@ -155,19 +175,19 @@ const styles = StyleSheet.create({
   },
   titlebtn: {
     fontSize: 25,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   footer: {
     flexDirection: "row",
     alignItems: "center",
   },
   footerText: {
-    fontWeight: 'bold',
-    color: 'tomato',
+    fontWeight: "bold",
+    color: "tomato",
   },
   footerLink: {
     marginLeft: 5,
-    color: 'green',
+    color: "green",
   },
 });

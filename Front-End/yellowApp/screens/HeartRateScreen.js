@@ -24,10 +24,6 @@ const HeartRateScreen = () => {
     // Add more sample data as needed
   ]);
 
-
-
-
-
   const handleSubmissionInBackEnd = async () => {
     // Check if any field is empty
     if (!heartRate) {
@@ -35,59 +31,55 @@ const HeartRateScreen = () => {
       return;
     }
 
-
-
-//=======================================Back-End=============================================
+    //=======================================Back-End=============================================
     try {
-      
-      const response = await fetch('http://192.168.135.60:4000/api/HeartRate', {
+      const response = await fetch("http://192.168.1.41:4000/api/HeartRate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ heartRate}), // Include heart rate, sex, and age
+        body: JSON.stringify({ heartRate }), // Include heart rate, sex, and age
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit heart rate data');
+        throw new Error("Failed to submit heart rate data");
       }
 
       const responseData = await response.json();
       Alert.alert("Heart Rate Result", responseData.message); // Display server response message
     } catch (error) {
-      console.error('Error:', error.message);
-      Alert.alert("Error", "Failed to submit heart rate data. Please try again.");
+      console.error("Error:", error.message);
+      Alert.alert(
+        "Error",
+        "Failed to submit heart rate data. Please try again."
+      );
     }
 
     if (!heartRate) {
       Alert.alert("Error", "Please enter heart rate value.");
       return;
-  }
+    }
 
-  //this part adds new enteries to chart===============
+    //this part adds new enteries to chart===============
 
-  const now = new Date();
-  const month = String(now.getMonth() + 1).padStart(2, "0"); // Get month (0-indexed) and pad with leading zero if needed
-  const day = String(now.getDate()).padStart(2, "0"); // Get day of the month and pad with leading zero if needed
-  const time = `${month}-${day}`; // Format as "MM-DD"
-  
-  const newEntry = { time, heartRate: parseInt(heartRate) };
-  setHeartRateHistory([...heartRateHistory, newEntry]);
-  setHeartRate(""); // Clear input field after submission
+    const now = new Date();
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // Get month (0-indexed) and pad with leading zero if needed
+    const day = String(now.getDate()).padStart(2, "0"); // Get day of the month and pad with leading zero if needed
+    const time = `${month}-${day}`; // Format as "MM-DD"
+
+    const newEntry = { time, heartRate: parseInt(heartRate) };
+    setHeartRateHistory([...heartRateHistory, newEntry]);
+    setHeartRate(""); // Clear input field after submission
   };
-//=================================================================================================
-
-
-
+  //=================================================================================================
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-       <GoBackArrow
-        screenName="HomeTab" 
-        source={require("../assets/backArrow.png")} 
+      <GoBackArrow
+        screenName="HomeTab"
+        source={require("../assets/backArrow.png")}
+      />
 
-       />
-      
       <Image
         source={require("../assets/heartRate2.png")}
         style={styles.image}
@@ -105,57 +97,58 @@ const HeartRateScreen = () => {
           keyboardType="numeric"
         />
 
-        
-
-        <TouchableOpacity style={styles.button} onPress={handleSubmissionInBackEnd}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSubmissionInBackEnd}
+        >
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
 
-
-      { /* chart section */}
+      {/* chart section */}
       <View style={{ marginBottom: 20 }}>
-  <Text style={styles.label}>Heart Rate History (last 4 entries)</Text>
-  <LineChart
-    data={{
-      labels: heartRateHistory.slice(-4).map((entry) => entry.time),
-      datasets: [
-        {
-          data: heartRateHistory.slice(-4).map((entry) => entry.heartRate),
-        },
-      ],
-    }}
-    width={300}
-    height={200}
-    yAxisSuffix="bpm"
-    chartConfig={{
-      backgroundColor: "#ffffff",
-      backgroundGradientFrom: "#ffffff",
-      backgroundGradientTo: "#ffffff",
-      decimalPlaces: 0,
-      color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`,
-      labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-      style: {
-        borderRadius: 16,
-      },
-      propsForDots: {
-        r: "6",
-        strokeWidth: "2",
-        stroke: "#ffa726",
-      },
-      xLabelsOffset: -10, // Adjust the offset of X-axis labels
-      xLabelRotation: -60, // Rotate X-axis labels by -60 degrees
-      labelFontSize: 12, // Adjust the font size of X-axis labels
-    }}
-    bezier
-    style={{
-      marginVertical: 8,
-      borderRadius: 16,
-    }}
-  />
-</View>
+        <Text style={styles.label}>Heart Rate History (last 4 entries)</Text>
+        <LineChart
+          data={{
+            labels: heartRateHistory.slice(-4).map((entry) => entry.time),
+            datasets: [
+              {
+                data: heartRateHistory
+                  .slice(-4)
+                  .map((entry) => entry.heartRate),
+              },
+            ],
+          }}
+          width={300}
+          height={200}
+          yAxisSuffix="bpm"
+          chartConfig={{
+            backgroundColor: "#ffffff",
+            backgroundGradientFrom: "#ffffff",
+            backgroundGradientTo: "#ffffff",
+            decimalPlaces: 0,
+            color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#ffa726",
+            },
+            xLabelsOffset: -10, // Adjust the offset of X-axis labels
+            xLabelRotation: -60, // Rotate X-axis labels by -60 degrees
+            labelFontSize: 12, // Adjust the font size of X-axis labels
+          }}
+          bezier
+          style={{
+            marginVertical: 8,
+            borderRadius: 16,
+          }}
+        />
+      </View>
       {/* end of chart section */}
-
 
       {/* Add padding to the bottom of the form container */}
       <View style={{ paddingBottom: 300 }} />

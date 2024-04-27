@@ -1,6 +1,6 @@
 const express = require("express");
 
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 const router = express.Router();
 
@@ -27,7 +27,7 @@ const client = new Client({
 });
 
 client.connect();
-const {getUserInformationToExport} = require('./LoginEndpoints');
+const { getUserInformationToExport } = require("./LoginEndpoints");
 router.use(bodyParser.json());
 
 // router.get("/", (req, res) => {
@@ -40,7 +40,7 @@ router.use(bodyParser.json());
 //         try {
 //           // Call getUserInformationToExport function to retrieve user information
 //           const user = await getUserInformationToExport();
-      
+
 //           // Access user ID
 //         console.log("User ID:", user.id);
 //         } catch (error) {
@@ -49,66 +49,65 @@ router.use(bodyParser.json());
 //       })();
 // }
 
-async function saveHeartRateResultInDB(HeartRate,HeartRateResult){
-    (async () => {
-        try {
-          // Call getUserInformationToExport function to retrieve user information
-          const user = await getUserInformationToExport();
-      
-          // Access user ID
-          insertDataIntoTable(HeartRate,HeartRateResult,user)
+async function saveHeartRateResultInDB(HeartRate, HeartRateResult) {
+  (async () => {
+    try {
+      // Call getUserInformationToExport function to retrieve user information
+      const user = await getUserInformationToExport();
 
-        console.log("User ID:", user.id);
-        } catch (error) {
-          console.error("Error:", error);
-        }
+      // Access user ID
+      insertDataIntoTable(HeartRate, HeartRateResult, user);
 
-      })();
+      console.log("User ID:", user.id);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  })();
 }
 
-async function insertDataIntoTable(HeartRate,HeartRateResult,User) {
-    try {
-      // Construct the SQL INSERT query
-      const query = `
+async function insertDataIntoTable(HeartRate, HeartRateResult, User) {
+  try {
+    // Construct the SQL INSERT query
+    const query = `
         INSERT INTO heartratehistory (currentheartrate, datetime,patientid ,result)
         VALUES ($1, $2, $3,$4)
         RETURNING *;`;
 
-        const currentTimestamp = new Date();
-        //Get User ID
-        
-        console.log(HeartRate);
-        // Define the values to be inserted
-        const values = [HeartRate,currentTimestamp,User.id,HeartRateResult];
-  
-      // Execute the query
-      const result = await client.query(query, values);
-  
-      // Log the inserted row(s)
-      console.log("Inserted row:", result.rows[0]);
-    } catch (error) {
-      console.error("Error inserting data:", error);
-    } finally {
-      // Close the client connection
-    }
-  }
+    const currentTimestamp = new Date();
+    //Get User ID
 
-function isHeartRateOk(CurrentHeartRate){
-    if(CurrentHeartRate <= 100 && CurrentHeartRate >= 60){
-        return "good";
-    }
-    return "Bad";
+    console.log(HeartRate);
+    // Define the values to be inserted
+    const values = [HeartRate, currentTimestamp, User.id, HeartRateResult];
+
+    // Execute the query
+    const result = await client.query(query, values);
+
+    // Log the inserted row(s)
+    console.log("Inserted row:", result.rows[0]);
+  } catch (error) {
+    console.error("Error inserting data:", error);
+  } finally {
+    // Close the client connection
+  }
 }
 
-router.post("/HeartRate",(req,res)=>{
-    const heartRate = req.body.heartRate;
-    const HeartRateResult = isHeartRateOk(heartRate);
-    const heartRateInt = parseInt(heartRate);
-    console.log(heartRateInt);
-    console.log("Data sent successfuly");
-    //console.log(getUserInformationToExport.id);
-    res.json({message:HeartRateResult});
-    saveHeartRateResultInDB(heartRateInt,HeartRateResult);
-})
+function isHeartRateOk(CurrentHeartRate) {
+  if (CurrentHeartRate <= 100 && CurrentHeartRate >= 60) {
+    return "good";
+  }
+  return "Bad";
+}
+
+router.post("/HeartRate", (req, res) => {
+  const heartRate = req.body.heartRate;
+  const HeartRateResult = isHeartRateOk(heartRate);
+  const heartRateInt = parseInt(heartRate);
+  console.log(heartRateInt);
+  console.log("Data sent successfuly");
+  //console.log(getUserInformationToExport.id);
+  res.json({ message: HeartRateResult });
+  saveHeartRateResultInDB(heartRateInt, HeartRateResult);
+});
 
 module.exports = router;
