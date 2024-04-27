@@ -7,6 +7,7 @@ import HeartRateScreen from '../screens/HeartRateScreen';
 import BloodSugarScreen from '../screens/BloodSugarScreen';
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
+import SearchScreen from '../screens/SearchScreen';
 
 // to hide buttons inside bottom tab, just use  tabBarButton: () => null
 // like this <Tab.Screen name="HeartRate" component={HeartRateScreen} options={{
@@ -102,6 +103,10 @@ const Tabs = () => {
             }}/> 
             
             <Tab.Screen name="BloodSugar" component={BloodSugarScreen} options={{
+                 tabBarButton: () => null
+            }}/> 
+
+            <Tab.Screen name="Search" component={SearchScreen} options={{
                  tabBarButton: () => null
             }}/> 
             

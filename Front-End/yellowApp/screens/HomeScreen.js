@@ -9,6 +9,7 @@ const HomeScreen=({navigation}) => {
             
             <GoToButton screenName="HeartRate" source={require('../assets/heartRate2.png')}/>
             <GoToButton screenName="BloodSugar" source={require('../assets/bloodSugar.png')}/>
+            <GoToButton screenName="Search" source={require('../assets/search.png')}/>
         </View>
     );
 }
