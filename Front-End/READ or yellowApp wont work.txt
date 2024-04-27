@@ -17,3 +17,5 @@ Use the commands below in the VScode terminal to install these libraries:
 -npm install react-native-chart-kit
 
 -npm install react-native-svg
+
+-npm install @react-native-community/datetimepicker 
