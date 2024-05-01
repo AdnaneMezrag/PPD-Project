@@ -4,7 +4,7 @@
   "description": "1st simple version: -GUI 85% DONE\r -BACKEND 75% DONE\r -FRONT TO BACK AND REVERSE LOGIC 70% DONE",
   "main": "server.js",
   "scripts": {
-    "start": "node Server.js"
+    "start": "node server.js"
   },
 
   "keywords": [],
