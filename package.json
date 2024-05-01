@@ -4,6 +4,7 @@
   "description": "1st simple version: -GUI 85% DONE\r -BACKEND 75% DONE\r -FRONT TO BACK AND REVERSE LOGIC 70% DONE",
   "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
 
   },
