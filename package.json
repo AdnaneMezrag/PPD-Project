@@ -4,7 +4,7 @@
   "description": "1st simple version: -GUI 85% DONE\r -BACKEND 75% DONE\r -FRONT TO BACK AND REVERSE LOGIC 70% DONE",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "engines": {
     "node": "20.12.0"
