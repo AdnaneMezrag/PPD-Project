@@ -34,8 +34,9 @@ export default function Login() {
       Alert.alert("Error", "Please enter all data.");
       return;
     }
+    //https://blooming-beyond-66841.herokuapp.com/api/login
     try {
-      const response = await axios.post("https://blooming-beyond-66841.herokuapp.com/api/login", {
+      const response = await axios.post("http://192.168.1.38:4000/api/login", {
         email: email,
         password: password,
       });
