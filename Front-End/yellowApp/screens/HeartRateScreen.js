@@ -32,6 +32,7 @@ const HeartRateScreen = () => {
     }
 
     //=======================================Back-End=============================================
+    //https://ppd-project.onrender.com/api/HeartRate
     try {
       const response = await fetch("https://ppd-project.onrender.com/api/HeartRate", {
         method: "POST",

@@ -49,14 +49,14 @@ router.use(bodyParser.json());
 //       })();
 // }
 
-async function saveHeartRateResultInDB(HeartRate, HeartRateResult,query) {
+async function saveHeartRateResultInDB(HeartRate, HeartRateResult) {
   (async () => {
     try {
       // Call getUserInformationToExport function to retrieve user information
       const user = await getUserInformationToExport();
 
       // Access user ID
-      insertDataIntoTable(HeartRate, HeartRateResult, user,query);
+      insertDataIntoTable(HeartRate, HeartRateResult, user);
 
       console.log("User ID:", user.id);
     } catch (error) {
@@ -65,9 +65,13 @@ async function saveHeartRateResultInDB(HeartRate, HeartRateResult,query) {
   })();
 }
 
-async function insertDataIntoTable(HeartRate, HeartRateResult, User,query) {
+async function insertDataIntoTable(HeartRate, HeartRateResult, User) {
   try {
     // Construct the SQL INSERT query
+    const query = `
+        INSERT INTO heartratehistory (currentheartrate, datetime,patientid ,result)
+        VALUES ($1, $2, $3,$4)
+        RETURNING *;`;
 
     const currentTimestamp = new Date();
     //Get User ID
@@ -89,14 +93,7 @@ async function insertDataIntoTable(HeartRate, HeartRateResult, User,query) {
 }
 
 function isHeartRateOk(CurrentHeartRate) {
-  if (CurrentHeartRate <= 5 && CurrentHeartRate >= 0) {
-    return "good";
-  }
-  return "Bad";
-}
-
-function isBloodSugarOk(CurrentBloodSugar) {
-  if (CurrentBloodSugar <= 99 && CurrentBloodSugar >= 70) {
+  if (CurrentHeartRate <= 100 && CurrentHeartRate >= 60) {
     return "good";
   }
   return "Bad";
@@ -110,26 +107,7 @@ router.post("/HeartRate", (req, res) => {
   console.log("Data sent successfuly");
   //console.log(getUserInformationToExport.id);
   res.json({ message: HeartRateResult });
-  const query = `
-  INSERT INTO heartratehistory (currentheartrate, datetime,patientid ,result)
-  VALUES ($1, $2, $3,$4)
-  RETURNING *;`;
   saveHeartRateResultInDB(heartRateInt, HeartRateResult);
-});
-
-router.post("/BloodSugar", (req, res) => {
-  const bloodSugarLevel = req.body.bloodSugarLevel;
-  const bloodSugarLevelResult = isHeartRateOk(bloodSugarLevel);
-  const bloodSugarLevelInt = parseInt(bloodSugarLevel);
-  console.log(bloodSugarLevelInt);
-  console.log("Data sent successfuly");
-  //console.log(getUserInformationToExport.id);
-  res.json({ message: bloodSugarLevelResult });
-  const query = `
-  INSERT INTO bloodsugarhistory (currentbloodsugar, datetime,patientid ,result)
-  VALUES ($1, $2, $3,$4)
-  RETURNING *;`;
-  saveHeartRateResultInDB(bloodSugarLevelInt, bloodSugarLevelResult,query);
 });
 
 module.exports = router;

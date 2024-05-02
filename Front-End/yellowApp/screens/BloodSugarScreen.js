@@ -16,28 +16,66 @@ const BloodSugarScreen = () => {
     // Add more sample data as needed
   ]);
 
-  const handleSubmission = () => {
+  const handleSubmissionInBackEnd = async () => {
     // Check if any field is empty
     if (!bloodSugarLevel || !status) {
       Alert.alert('Error', 'Please enter all data.');
       return;
     }
 
+    //======================================Back-End=================================================
+    
+    //https://ppd-project.onrender.com/api/HeartRate
+    try {
+      const response = await fetch("https://ppd-project.onrender.com/api/BloodSugar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ bloodSugarLevel, status}), // Include heart rate, sex, and age
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit blood sugar data");
+      }
+
+      const responseData = await response.json();
+      Alert.alert("Blood Sugar Result", responseData.message); // Display server response message
+    } catch (error) {
+      console.error("Error:", error.message);
+      Alert.alert(
+        "Error",
+        "Failed to submit blood sugar data. Please try again."
+      );
+    }
+
+    if (!bloodSugarLevel) {
+      Alert.alert("Error", "Please enter blood sugar value.");
+      return;
+    }
+
+    //==========================================Back-End===================================================
+
     // Convert age to number
     // const userAge = parseInt(age);/////
 
     // Perform blood sugar level comparison logic here
     // For demonstration purposes, I'm assuming normal blood sugar level ranges
-    const normalBloodSugarRange = { 'mg/dL': { min: 70, max: 140 }};
 
-    let message;
-    const bloodSugarLevelInMgDl =  parseFloat(bloodSugarLevel);
+
     
-    if (bloodSugarLevelInMgDl < normalBloodSugarRange[unit].min || bloodSugarLevelInMgDl > normalBloodSugarRange[unit].max) {
-      message = 'Your blood sugar level is abnormal. Please consult a doctor as soon as possible.';
-    } else {
-      message = 'Your blood sugar level is normal.';
-    }
+    // const normalBloodSugarRange = { 'mg/dL': { min: 70, max: 140 }};
+
+    // let message;
+    // const bloodSugarLevelInMgDl =  parseFloat(bloodSugarLevel);
+    
+    // if (bloodSugarLevelInMgDl < normalBloodSugarRange[unit].min || bloodSugarLevelInMgDl > normalBloodSugarRange[unit].max) {
+    //   message = 'Your blood sugar level is abnormal. Please consult a doctor as soon as possible.';
+    // } else {
+    //   message = 'Your blood sugar level is normal.';
+    // }
+
+
 
     //adds new chart enteries
     const now = new Date();
@@ -50,7 +88,7 @@ const BloodSugarScreen = () => {
     setBloodSugarLevel(''); // Clear input field after submission
 
     // Display result notification
-    Alert.alert('Blood Sugar Result', message);
+    //Alert.alert('Blood Sugar Result', message);
   };
 
 
@@ -92,7 +130,7 @@ const BloodSugarScreen = () => {
         </View>
 
 
-        <TouchableOpacity style={styles.button} onPress={handleSubmission}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmissionInBackEnd}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
