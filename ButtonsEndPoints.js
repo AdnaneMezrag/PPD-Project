@@ -95,7 +95,8 @@ function isHeartRateOk(CurrentHeartRate) {
   return "Bad";
 }
 
-function isBloodSugarOk(CurrentBloodSugar) {
+function isBloodSugarOk(CurrentBloodSugar,Status) {
+  if(Status)
   if (CurrentBloodSugar <= 99 && CurrentBloodSugar >= 70) {
     return "good";
   }
@@ -119,7 +120,10 @@ router.post("/HeartRate", (req, res) => {
 
 router.post("/BloodSugar", (req, res) => {
   const bloodSugarLevel = req.body.bloodSugarLevel;
-  const bloodSugarLevelResult = isHeartRateOk(bloodSugarLevel);
+  const status = req.body.status;
+  console.log(status);
+  console.log(typeof status);
+  const bloodSugarLevelResult = isBloodSugarOk(bloodSugarLevel,status);
   const bloodSugarLevelInt = parseInt(bloodSugarLevel);
   console.log(bloodSugarLevelInt);
   console.log("Data sent successfuly");
