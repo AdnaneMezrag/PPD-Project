@@ -33,7 +33,7 @@ const HeartRateScreen = () => {
 
     //=======================================Back-End=============================================
     try {
-      const response = await fetch("http://192.168.1.38:4000/api/HeartRate", {
+      const response = await fetch("https://ppd-project.onrender.com/api/HeartRate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

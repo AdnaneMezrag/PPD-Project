@@ -47,7 +47,7 @@ const SearchScreen = () => {
 
     if (selectedOption === "heartRate") {
       const response = await axios.post(
-        "http://192.168.1.38:4000/api/history/heart_rate_history",
+        "http://https://ppd-project.onrender.com/api/history/heart_rate_history",
         {
           idUser: id,
           date: date,
@@ -59,7 +59,7 @@ const SearchScreen = () => {
       updateSearchResult(data.searched);
     } else if (selectedOption == "bloodSugar") {
       const response = await axios.post(
-        "http://192.168.1.38:4000/api/history/blood_sugar_history",
+        "http://https://ppd-project.onrender.com/api/history/blood_sugar_history",
         {
           idUser: id,
           date: date,

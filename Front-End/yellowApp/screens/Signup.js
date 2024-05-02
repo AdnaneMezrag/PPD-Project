@@ -45,7 +45,7 @@ export default function Signup() {
     try {
       //    const bd = new Date("1/1/2000");
 
-      const response = await axios.post("http://192.168.1.38:4000/api/signup", {
+      const response = await axios.post("https://ppd-project.onrender.com/api/signup", {
         // ip config
         email: email,
         password: password,
