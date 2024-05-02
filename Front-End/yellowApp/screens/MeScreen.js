@@ -58,7 +58,7 @@ const MeScreen = () => {
     setEditMode(false);
 
     try {
-      const response = axios.put("http://192.168.1.41:4000/api/signup/edit", {
+      const response = axios.put("https://ppd-project.onrender.com/signup/edit", {
         name: name,
         age: age,
         id: id,

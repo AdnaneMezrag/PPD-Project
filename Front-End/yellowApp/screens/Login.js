@@ -36,7 +36,7 @@ export default function Login() {
     }
     //https://blooming-beyond-66841.herokuapp.com/api/login
     try {
-      const response = await axios.post("http://192.168.1.38:4000/api/login", {
+      const response = await axios.post("https://ppd-project.onrender.com/api/login", {
         email: email,
         password: password,
       });
