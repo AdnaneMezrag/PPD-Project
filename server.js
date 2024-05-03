@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 app.use(express.json()); //almost forgot this
-const Port = process.env.Port ||  4000;
+const Port = process.env.PORT || 4000;
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -22,7 +22,6 @@ app.use("/api/history", historyEndpoints);
 //======================================Buttons Logic===============================================
 const ButtonsEndPoints = require("./ButtonsEndPoints");
 app.use("/api", ButtonsEndPoints); // using the other file's endpoints via router
-
 
 //======================================Buttons Logic===============================================
 

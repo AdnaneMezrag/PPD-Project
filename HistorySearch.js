@@ -37,7 +37,7 @@ route.post("/heart_rate_history", async (req, res) => {
 
     const searched = result.rows.map((row) => ({
       // sending data without the ID (Already has it)
-      currentheartrate: row.currentheartrate,
+      currentvalue: row.currentheartrate,
       datetime: row.datetime,
       result: row.result,
     }));
@@ -46,27 +46,27 @@ route.post("/heart_rate_history", async (req, res) => {
   } catch (error) {
     console.error("Error fetching heart rate history:", error);
     res.status(500).json({ error: "Internal server error" });
+  } finally {
+    client.end();
+    console.log("Disconnected from the DB");
   }
 });
 
 route.post("/blood_sugar_history", async (req, res) => {
   const idUser = req.body.idUser;
   const date = req.body.date;
-  const newtable = "";
 
   // waiting for the blood sugar history to be done first ...
 
   try {
     const result = await client.query(
-      "SELECT * FROM " +
-        newtable +
-        " WHERE DATE(datetime) = $1 AND patientid = $2",
+      "SELECT * FROM bloodsugarhistory WHERE DATE(datetime) = $1 AND patientid = $2",
       [date, idUser]
     );
 
     const searched = result.rows.map((row) => ({
       // sending data without the ID (Already has it)
-      currentheartrate: row.currentheartrate,
+      currentheartrate: row.currentbloodsugar,
       datetime: row.datetime,
       result: row.result,
     }));
@@ -75,6 +75,9 @@ route.post("/blood_sugar_history", async (req, res) => {
   } catch (error) {
     console.error("Error fetching heart rate history:", error);
     res.status(500).json({ error: "Internal server error" });
+  } finally {
+    client.end();
+    console.log("Disconnected from the DB");
   }
 });
 

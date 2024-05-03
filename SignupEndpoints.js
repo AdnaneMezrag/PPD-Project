@@ -58,6 +58,9 @@ route.post("/", async (req, res) => {
   } catch (error) {
     console.error("Error adding user:", error);
     res.status(500).json({ message: "Internal server error" });
+  } finally {
+    client.end();
+    console.log("Disconnected from the DB");
   }
 });
 
@@ -75,6 +78,9 @@ route.put("/edit", async (req, res) => {
     );
   } catch (error) {
     console.error("editing error..." + error);
+  } finally {
+    client.end();
+    console.log("Disconnected from the DB");
   }
 });
 //   const query = {

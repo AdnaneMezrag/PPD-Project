@@ -49,14 +49,14 @@ router.use(bodyParser.json());
 //       })();
 // }
 
-async function saveHeartRateResultInDB(HeartRate, HeartRateResult,query) {
+async function saveHeartRateResultInDB(HeartRate, HeartRateResult, query) {
   (async () => {
     try {
       // Call getUserInformationToExport function to retrieve user information
       const user = await getUserInformationToExport();
 
       // Access user ID
-      insertDataIntoTable(HeartRate, HeartRateResult, user,query);
+      insertDataIntoTable(HeartRate, HeartRateResult, user, query);
 
       console.log("User ID:", user.id);
     } catch (error) {
@@ -65,7 +65,7 @@ async function saveHeartRateResultInDB(HeartRate, HeartRateResult,query) {
   })();
 }
 
-async function insertDataIntoTable(HeartRate, HeartRateResult, User,query) {
+async function insertDataIntoTable(HeartRate, HeartRateResult, User, query) {
   try {
     // Construct the SQL INSERT query
 
@@ -84,7 +84,8 @@ async function insertDataIntoTable(HeartRate, HeartRateResult, User,query) {
   } catch (error) {
     console.error("Error inserting data:", error);
   } finally {
-    // Close the client connection
+    client.end();
+    console.log("Disconnected from the DB");
   }
 }
 
@@ -95,14 +96,14 @@ function isHeartRateOk(CurrentHeartRate) {
   return "Bad";
 }
 
-function isBloodSugarOk(CurrentBloodSugar,Status) {
-  if(Status=="After Meal"){
+function isBloodSugarOk(CurrentBloodSugar, Status) {
+  if (Status == "After Meal") {
     if (CurrentBloodSugar <= 140 && CurrentBloodSugar >= 70) {
       return "good";
     }
     return "Bad";
   }
-  if(Status=="Before Meal"){
+  if (Status == "Before Meal") {
     if (CurrentBloodSugar <= 99 && CurrentBloodSugar >= 70) {
       return "good";
     }
@@ -127,10 +128,10 @@ router.post("/HeartRate", (req, res) => {
 
 router.post("/BloodSugar", (req, res) => {
   const bloodSugarLevel = req.body.bloodSugarLevel;
-  const status = ((req.body.status).toString());
+  const status = req.body.status.toString();
   console.log(status);
   console.log(typeof status);
-  const bloodSugarLevelResult = isBloodSugarOk(bloodSugarLevel,status);
+  const bloodSugarLevelResult = isBloodSugarOk(bloodSugarLevel, status);
   const bloodSugarLevelInt = parseInt(bloodSugarLevel);
   console.log(bloodSugarLevelInt);
   console.log("Data sent successfuly");
@@ -140,7 +141,7 @@ router.post("/BloodSugar", (req, res) => {
   INSERT INTO bloodsugarhistory (currentbloodsugar, datetime,patientid ,result)
   VALUES ($1, $2, $3,$4)
   RETURNING *;`;
-  saveHeartRateResultInDB(bloodSugarLevelInt, bloodSugarLevelResult,query);
+  saveHeartRateResultInDB(bloodSugarLevelInt, bloodSugarLevelResult, query);
 });
 
 module.exports = router;

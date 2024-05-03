@@ -18,10 +18,10 @@ const SearchScreen = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedOption, setSelectedOption] = useState("bloodSugar"); // Initialize selectedOption state
   const [searchResult, updateSearchResult] = useState([
-    { datetime: "2002-05-15", result: "good", currentheartrate: 90 },
-    { datetime: "2022-08-15", result: "bad", currentheartrate: 130 },
-    { datetime: "2012-05-15", result: "good", currentheartrate: 90 },
-    { datetime: "2002-06-65", result: "bad", currentheartrate: 120 },
+    { datetime: "2002-05-15", result: "good", currentvalue: 90 },
+    { datetime: "2022-08-15", result: "bad", currentvalue: 130 },
+    { datetime: "2012-05-15", result: "good", currentvalue: 90 },
+    { datetime: "2002-06-65", result: "bad", currentvalue: 120 },
   ]);
   const { user, updateUser } = useUser(); // exported user data and are ready to be used
   const handleDateChange = (event, selectedDate) => {
@@ -46,39 +46,46 @@ const SearchScreen = () => {
     console.log(date);
 
     if (selectedOption === "heartRate") {
-      const response = await axios.post(
-        "http://https://ppd-project.onrender.com/api/history/heart_rate_history",
-        {
-          idUser: id,
-          date: date,
-        }
-      );
+      try {
+        console.log("Heart rate");
+        const response = await axios.post(
+          "https://ppd-project.onrender.com/api/history/heart_rate_history",
+          {
+            idUser: id,
+            date: date,
+          }
+        );
 
-      const data = response.data;
+        const data = response.data;
 
-      updateSearchResult(data.searched);
-    } else if (selectedOption == "bloodSugar") {
-      const response = await axios.post(
-        "http://https://ppd-project.onrender.com/api/history/blood_sugar_history",
-        {
-          idUser: id,
-          date: date,
-        }
-      );
+        updateSearchResult(data.searched);
+      } catch (error) {
+        Alert.alert("Error", "states : " + error);
+      }
+    }
+    if (selectedOption == "bloodSugar") {
+      console.log("BLOOD SUGAR");
 
-      const data = response.data;
+      try {
+        const response = await axios.post(
+          "https://ppd-project.onrender.com/api/history/blood_sugar_history",
+          {
+            idUser: id,
+            date: date,
+          }
+        );
 
-      updateSearchResult(data.searched);
+        const data = response.data;
 
-      Alert.alert("WARNING", "The Blood Sugar DB is not added yet");
-    } else {
-      Alert.alert("Alert", "Must Choose An Option");
-
-      return;
+        updateSearchResult(data.searched);
+      } catch (error) {
+        Alert.alert("Error", "states : " + error);
+      }
     }
 
     console.log("Selected Date:", selectedDate);
     console.log("Selected Option:", selectedOption);
+
     // Add logic to search database for selected date and option
   };
 
@@ -129,7 +136,7 @@ const SearchScreen = () => {
         ) : (
           <FlatList
             keyExtractor={(item) => {
-              item.currentheartrate;
+              item.currentvalue;
             }}
             data={searchResult}
             renderItem={({ item }) => {
@@ -160,7 +167,7 @@ const SearchScreen = () => {
                       color: "white",
                     }}
                   >
-                    {item.currentheartrate}
+                    {item.currentvalue}
                   </Text>
                   <Text
                     style={{

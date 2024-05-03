@@ -88,7 +88,7 @@ async function insertDataIntoTable(HeartRate, HeartRateResult, User) {
   } catch (error) {
     console.error("Error inserting data:", error);
   } finally {
-    // Close the client connection
+    // use Pooling for releasing resources instead of disconnecting to make the app faster ...
   }
 }
 
