@@ -46,10 +46,7 @@ route.post("/heart_rate_history", async (req, res) => {
   } catch (error) {
     console.error("Error fetching heart rate history:", error);
     res.status(500).json({ error: "Internal server error" });
-  } finally {
-    client.end();
-    console.log("Disconnected from the DB");
-  }
+  } 
 });
 
 route.post("/blood_sugar_history", async (req, res) => {
@@ -75,10 +72,7 @@ route.post("/blood_sugar_history", async (req, res) => {
   } catch (error) {
     console.error("Error fetching heart rate history:", error);
     res.status(500).json({ error: "Internal server error" });
-  } finally {
-    client.end();
-    console.log("Disconnected from the DB");
-  }
+  } 
 });
 
 module.exports = route;
