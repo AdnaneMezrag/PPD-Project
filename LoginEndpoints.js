@@ -88,8 +88,6 @@ router.post("/", async (req, res) => {
     }
   } catch (error) {
     res.send("ERROR");
-  } finally {
-    client.end();
   }
 });
 
