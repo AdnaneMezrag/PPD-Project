@@ -49,20 +49,33 @@ router.use(bodyParser.json());
 //       })();
 // }
 
+// async function saveHeartRateResultInDB(HeartRate, HeartRateResult, query) {
+//   (async () => {
+//     try {
+//       // Call getUserInformationToExport function to retrieve user information
+//       const user = await getUserInformationToExport();
+
+//       // Access user ID
+//      await insertDataIntoTable(HeartRate, HeartRateResult, user, query);
+
+//       console.log("User ID:", user.id);
+//     } catch (error) {
+//       console.error("Error:", error);
+//     }
+//   })();
+// }
 async function saveHeartRateResultInDB(HeartRate, HeartRateResult, query) {
-  (async () => {
-    try {
-      // Call getUserInformationToExport function to retrieve user information
-      const user = await getUserInformationToExport();
+  try {
+    // Call getUserInformationToExport function to retrieve user information
+    const user = await getUserInformationToExport();
 
-      // Access user ID
-     await insertDataIntoTable(HeartRate, HeartRateResult, user, query);
+    // Access user ID
+    await insertDataIntoTable(HeartRate, HeartRateResult, user, query);
 
-      console.log("User ID:", user.id);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  })();
+    console.log("User ID:", user.id);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 async function insertDataIntoTable(HeartRate, HeartRateResult, User, query) {
