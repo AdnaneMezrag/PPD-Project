@@ -120,7 +120,7 @@ router.post("/HeartRate", (req, res) => {
   INSERT INTO heartratehistory (currentheartrate, datetime,patientid ,result)
   VALUES ($1, $2, $3,$4)
   RETURNING *;`;
-  saveHeartRateResultInDB(heartRateInt, HeartRateResult);
+  saveHeartRateResultInDB(heartRateInt, HeartRateResult,query);
 });
 
 router.post("/BloodSugar", (req, res) => {
