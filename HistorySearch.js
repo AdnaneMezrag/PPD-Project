@@ -63,7 +63,7 @@ route.post("/blood_sugar_history", async (req, res) => {
 
     const searched = result.rows.map((row) => ({
       // sending data without the ID (Already has it)
-      currentheartrate: row.currentbloodsugar,
+      currentvalue: row.currentbloodsugar,
       datetime: row.datetime,
       result: row.result,
     }));
