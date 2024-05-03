@@ -87,7 +87,7 @@ async function insertDataIntoTable(HeartRate, HeartRateResult, User, query) {
 }
 
 function isHeartRateOk(CurrentHeartRate) {
-  if (CurrentHeartRate <= 60 && CurrentHeartRate >= 100) {
+  if (CurrentHeartRate <= 100 && CurrentHeartRate >= 60) {
     return "good";
   }
   return "Bad";
