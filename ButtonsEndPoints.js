@@ -83,10 +83,7 @@ async function insertDataIntoTable(HeartRate, HeartRateResult, User, query) {
     console.log("Inserted row:", result.rows[0]);
   } catch (error) {
     console.error("Error inserting data:", error);
-  } finally {
-    client.end();
-    console.log("Disconnected from the DB");
-  }
+  } 
 }
 
 function isHeartRateOk(CurrentHeartRate) {
