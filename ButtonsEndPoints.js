@@ -56,7 +56,7 @@ async function saveHeartRateResultInDB(HeartRate, HeartRateResult, query) {
       const user = await getUserInformationToExport();
 
       // Access user ID
-      insertDataIntoTable(HeartRate, HeartRateResult, user, query);
+     await insertDataIntoTable(HeartRate, HeartRateResult, user, query);
 
       console.log("User ID:", user.id);
     } catch (error) {
