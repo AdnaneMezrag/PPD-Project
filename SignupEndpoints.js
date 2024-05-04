@@ -36,7 +36,7 @@ route.post("/", async (req, res) => {
       "SELECT * FROM patients WHERE email=$1",
       [email]
     );
-      res.json({password : username});
+    //  res.json({password : username}); OK STATUS
     if (existingUser.rows.length !== 0) {
       console.log(
         "Email Adresse '" +
