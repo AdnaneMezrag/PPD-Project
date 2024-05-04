@@ -30,13 +30,13 @@ route.post("/", async (req, res) => {
 
   try {
     const { email, password, username, Dateofbirth, age, gender } = req.body;
-    res.json({email : email});
+    //res.json({email : email}); OK STATUS 
     //searching
     const existingUser = await client.query(
       "SELECT * FROM patients WHERE email=$1",
       [email]
     );
-
+      res.json({password : username});
     if (existingUser.rows.length !== 0) {
       console.log(
         "Email Adresse '" +
