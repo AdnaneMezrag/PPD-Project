@@ -73,7 +73,7 @@ route.post("/edit", async (req, res) => {
       "UPDATE patients SET name = $1, email = $2, age = $3 WHERE id = $4",
       [name, email, age, id]
     );
-    res.json({nigga : "nigga"});
+    //res.json({sample : "sample"}); Trouble Shooting ...
   } catch (error) {
     res.status(500).json({ message: "Editing Error ..." });
   }
