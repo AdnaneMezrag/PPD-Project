@@ -46,11 +46,11 @@ route.post("/", async (req, res) => {
       return res.json({ userAdded: false }); //for generating a message for the user (front end)
     }
 
-    //const birthday = new Date(DateOfbirth); // this or it will not work...
-     res.json({dob : DateOfbirth});
+    const birthday = new Date(Dateofbirth); // this or it will not work...
+     
     const apost = await client.query(
       "INSERT INTO patients (name, email, password, age, gender, date_of_birth) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [username, email, password, age, gender, Dateofbirth]
+      [username, email, password, age, gender, birthday]
     );
 
     console.log("User added successfully:", username);
