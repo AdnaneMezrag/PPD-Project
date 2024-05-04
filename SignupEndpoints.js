@@ -30,7 +30,7 @@ route.post("/", async (req, res) => {
 
   try {
     const { email, password, username, Dateofbirth, age, gender } = req.body;
-    
+    res.json({email : email});
     //searching
     const existingUser = await client.query(
       "SELECT * FROM patients WHERE email=$1",
