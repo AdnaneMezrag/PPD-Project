@@ -29,7 +29,7 @@ route.post("/", async (req, res) => {
   // recieving a request containing user data:{name,email,pswrd,DOB}(id will be generated auto)
 
   try {
-    const { email, password, username, dob, age, gender } = req.body;
+    const { email, password, username, Dateofbirth, age, gender } = req.body;
 
     //searching
     const existingUser = await client.query(
