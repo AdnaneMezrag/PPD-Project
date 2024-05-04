@@ -30,7 +30,7 @@ route.post("/", async (req, res) => {
 
   try {
     const { email, password, username, Dateofbirth, age, gender } = req.body;
-
+    
     //searching
     const existingUser = await client.query(
       "SELECT * FROM patients WHERE email=$1",
@@ -57,7 +57,7 @@ route.post("/", async (req, res) => {
     res.json({ userAdded: true });
   } catch (error) {
     console.error("Error adding user:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "ERROR" });
   }
 });
 
