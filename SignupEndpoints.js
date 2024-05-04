@@ -46,8 +46,8 @@ route.post("/", async (req, res) => {
       return res.json({ userAdded: false }); //for generating a message for the user (front end)
     }
 
-    const birthday = new Date(dob); // this or it will not work...
-     res.json({password : "NIGGA"});
+    const birthday = new Date(DateOfBirth); // this or it will not work...
+    // res.json({password : "NIGGA"}); STATUS NOT OK , PROBLEM HERE
     const apost = await client.query(
       "INSERT INTO patients (name, email, password, age, gender, date_of_birth) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
       [username, email, password, age, gender, birthday]
