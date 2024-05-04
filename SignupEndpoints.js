@@ -49,7 +49,7 @@ route.post("/", async (req, res) => {
     const birthday = new Date(dob); // this or it will not work...
 
     const apost = await client.query(
-      "INSERT INTO patients(name,email,password,age,gender,date_of_birth) VALUES($1,$2,$3,$4,$5,$6)",
+      "INSERT INTO patients (name, email, password, age, gender, date_of_birth) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
       [username, email, password, age, gender, birthday]
     );
 
