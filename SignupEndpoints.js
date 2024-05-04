@@ -61,7 +61,7 @@ route.post("/", async (req, res) => {
   }
 });
 
-route.put("/edit", async (req, res) => {
+route.post("/edit", async (req, res) => {
   try {
     const user = req.body;
     const name = user.name;
