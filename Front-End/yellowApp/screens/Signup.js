@@ -15,6 +15,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Picker } from "@react-native-picker/picker"; // Import Picker from '@react-native-picker/picker'
 import DatePicker from "@react-native-community/datetimepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useUser } from "../context/Context";
 
@@ -28,12 +29,25 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   const [firstNameFocused, setFirstNameFocused] = useState(false); // Track email input focus
   const [lastNameFocused, setLastNameFocused] = useState(false); // Track email input focus
   const [dobFocused, setDobFocused] = useState(false); // Track email input focus
   const [idFocused, setIdFocused] = useState(false); // Track email input focus
   const [emailFocused, setEmailFocused] = useState(false); // Track email input focus
   const [passwordFocused, setPasswordFocused] = useState(false); // Track password input focus
+
+  const handleDateChange = (event, dob) => {
+    if (!dob) {
+      Alert.alert("Warning", "Enter a data value");
+      return;
+    }
+
+    const chosenDate = dob || date;
+    setShowDatePicker(false);
+    setDob(chosenDate);
+  };
 
   const handleSignUp = async () => {
     // Check if any field is empty
@@ -45,15 +59,20 @@ export default function Signup() {
     try {
       //    const bd = new Date("1/1/2000");
 
-      const response = await axios.post("https://ppd-project.onrender.com/api/signup", {
-        // ip config
-        email: email,
-        password: password,
-        username: username,
-        Dateofbirth: dob,
-        // age: 20,
-        gender: "male",
-      });
+      const username = firstName + " " + lastName;
+
+      const response = await axios.post(
+        "https://ppd-project.onrender.com/api/signup",
+        {
+          // ip config
+          email: email,
+          password: password,
+          username: username,
+          Dateofbirth: dob,
+          age: 20,
+          gender: sex,
+        }
+      );
       setUserAdded(response.data.userAdded);
 
       if (response.data.userAdded) {
@@ -131,7 +150,7 @@ export default function Signup() {
             onFocus={() => setLastNameFocused(false)} // Set email focus to true on focus
             onBlur={() => setLastNameFocused(false)} // Set email focus to false on blur
           />
-          <DatePicker
+          {/* <DatePicker
             style={styles.input}
             value={dob}
             mode="date"
@@ -155,18 +174,8 @@ export default function Signup() {
             onDateChange={(date) => {
               setDob(date);
             }}
-          />
+          /> */}
 
-          <TextInput
-            placeholder="ID"
-            placeholderTextColor={"grey"}
-            style={styles.input}
-            value={id}
-            onChangeText={setId}
-            keyboardType="numeric"
-            onFocus={() => setIdFocused(false)} // Set email focus to true on focus
-            onBlur={() => setIdFocused(false)} // Set email focus to false on blur
-          />
           <TextInput
             placeholder="Email"
             placeholderTextColor={"grey"}
@@ -188,6 +197,25 @@ export default function Signup() {
             onFocus={() => setPasswordFocused(true)} // Set password focus to true on focus
             onBlur={() => setPasswordFocused(false)} // Set password focus to false on blur
           />
+
+          <View style={styles.dateContainer}>
+            <Text style={{ color: "gray" }}>Select Search Date: {""}</Text>
+            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+              <Text style={{ color: "mediumseagreen" }}>
+                {dob.toDateString()}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {showDatePicker && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={dob}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={handleDateChange}
+            />
+          )}
         </View>
 
         <TouchableOpacity style={styles.button} onPress={handleSignUp}>
@@ -262,5 +290,13 @@ const styles = StyleSheet.create({
   footerLink: {
     marginLeft: 5,
     color: "green",
+  },
+  dateContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 20,
   },
 });

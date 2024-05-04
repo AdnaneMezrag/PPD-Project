@@ -29,7 +29,7 @@ route.post("/", async (req, res) => {
   // recieving a request containing user data:{name,email,pswrd,DOB}(id will be generated auto)
 
   try {
-    const { email, password, username, Dateofbirth, age, gender } = req.body;
+    const { email, password, username, dob, age, gender } = req.body;
 
     //searching
     const existingUser = await client.query(
@@ -46,7 +46,7 @@ route.post("/", async (req, res) => {
       return res.json({ userAdded: false }); //for generating a message for the user (front end)
     }
 
-    const birthday = new Date(Dateofbirth); // this or it will not work...
+    const birthday = new Date(dob); // this or it will not work...
 
     const apost = await client.query(
       "INSERT INTO patients(name,email,password,age,gender,date_of_birth) VALUES($1,$2,$3,$4,$5,$6)",
@@ -75,7 +75,7 @@ route.put("/edit", async (req, res) => {
     );
   } catch (error) {
     console.error("editing error..." + error);
-  } 
+  }
 });
 //   const query = {
 //   text: 'UPDATE users SET email = $1 WHERE id = $2',
