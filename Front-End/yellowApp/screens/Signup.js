@@ -59,7 +59,7 @@ export default function Signup() {
     try {
       //    const bd = new Date("1/1/2000");
 
-      const username = firstName + " " + lastName;
+      const username = firstName + "" + lastName;
 
       const response = await axios.post(
         "https://ppd-project.onrender.com/api/signup",
@@ -73,7 +73,7 @@ export default function Signup() {
           gender: sex,
         }
       );
-      setUserAdded(response.data.userAdded);
+//      setUserAdded(response.data.userAdded);
 
       if (response.data.userAdded) {
         Alert.alert(
@@ -101,6 +101,7 @@ export default function Signup() {
     console.log("ID:", id);
     console.log("Email:", email);
     console.log("Password:", password);
+      console.log("Date of birth:", dob.toDateString());
     // Example: Register new user
     // authService.register(firstName, lastName, sex, age, id, email, password)
     //   .then(response => {
