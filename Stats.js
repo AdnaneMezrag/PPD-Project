@@ -29,7 +29,7 @@ router.use(bodyParser.json());
 
 
 
-router.get('/stat/HeartRate',async (req,res)=>{
+router.get("/stat/HeartRate",async (req,res)=>{
    res.send().status(200);
     console.log("You are  here");
     try {
