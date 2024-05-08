@@ -34,15 +34,17 @@ const HeartRateScreen = () => {
   const Rerender = async ()=>{
 
     try {
-       const response = await axios.get("https://ppd-project.onrender.com/api/stat/HeartRate"
-      );
+       const response = await axios.get("https://ppd-project.onrender.com/api/stat/HeartRate");
 
-      setHeartRateHistory(response.data);
+    const hstr = response.data;
+
+        
 
     } catch (error) {
       console.log(error);
     }
 
+    
 
 
   }
@@ -176,6 +178,20 @@ const HeartRateScreen = () => {
 
       {/* Add padding to the bottom of the form container */}
       <View style={{ paddingBottom: 300 }} />
+
+      <View style={{position:"absolute", top:"70%"}}>
+
+      <TouchableOpacity
+          style={styles.button}
+          onPress={Rerender}
+        >
+          <Text style={styles.buttonText}>Refresh</Text>
+        </TouchableOpacity>
+      
+
+      </View>  
+
+
     </ScrollView>
   );
 };
