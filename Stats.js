@@ -25,7 +25,7 @@ const client = new Client({
 
 client.connect();
 const { getUserInformationToExport } = require("./LoginEndpoints");
-router.use(bodyParser.json());
+//router.use(bodyParser.json());
 
 console.log("you reached stat.js");
 
