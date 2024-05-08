@@ -18,7 +18,7 @@ const HeartRateScreen = () => {
   const [sex, setSex] = useState("");
   const [age, setAge] = useState("");
   const [heartRateHistory, setHeartRateHistory] = useState([
-    { time: "04-06", heartRate: 0 },
+    { time: "04-06",  heartRate: 0 },
     { time: "04-09 ", heartRate: 0 },
     { time: "04-10 ", heartRate: 0 },
     { time: "04-12 ", heartRate: 0 },
@@ -35,8 +35,9 @@ const HeartRateScreen = () => {
 
     try {
        const response = await axios.get("https://ppd-project.onrender.com/api/stat/HeartRate");
-
-    const hstr = response.data;
+      console.log("you entered suc");
+        const hstr = response.data;
+        //setHeartRateHistory(hstr);
 
         
 
