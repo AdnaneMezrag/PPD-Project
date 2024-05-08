@@ -30,7 +30,9 @@ router.use(bodyParser.json());
 
 
 router.get('/stat/HeartRate',async (req,res)=>{
+    console.log("You are fucking here");
     try {
+        
         const user = await getUserInformationToExport();
         const id = user.id;
         const query = await client.query('SELECT result , datetime FROM heartratehistory where patientid = $1 ORDER BY datetime desc LIMIT 4;',[id]);
