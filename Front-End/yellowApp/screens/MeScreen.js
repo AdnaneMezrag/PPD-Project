@@ -58,7 +58,7 @@ const MeScreen = () => {
     setEditMode(false);
 
     try {
-      const response = axios.put("https://ppd-project.onrender.com/api/signup/edit", {
+      const response = axios.post("https://ppd-project.onrender.com/api/signup/edit", {
         name: name,
         age: age,
         id: id,
@@ -147,49 +147,7 @@ const MeScreen = () => {
         <Text style={styles.editButtonText}>{editMode ? "Save" : "Edit"}</Text>
       </TouchableOpacity>
 
-      <View style={styles.container}>
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: "bold",
-            marginBottom: 10,
-            color: "green",
-            top: 70,
-            justifyContent: "center",
-            alignSelf: "center",
-          }}
-        >
-          Preferences
-        </Text>
-        <TouchableOpacity
-          style={styles.option}
-          onPress={navigateToLanguagePage}
-        >
-          <Text style={styles.optionText}>Choose Language</Text>
-          <Picker
-            selectedValue={selectedLanguage}
-            onValueChange={handleLanguageChange}
-            style={styles.picker}
-          >
-            {languages.map((language, index) => (
-              <Picker.Item key={index} label={language} value={language} />
-            ))}
-          </Picker>
-        </TouchableOpacity>
 
-        <View style={styles.option}>
-          <Text style={styles.optionText}>Dark Mode</Text>
-          <Switch value={darkModeEnabled} onValueChange={toggleDarkMode} />
-        </View>
-
-        <View style={styles.option}>
-          <Text style={styles.optionText}>Email Notifications</Text>
-          <Switch
-            value={emailNotificationsEnabled}
-            onValueChange={toggleEmailNotifications}
-          />
-        </View>
-      </View>
     </ScrollView>
   );
 };
