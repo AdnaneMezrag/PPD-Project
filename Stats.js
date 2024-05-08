@@ -29,29 +29,22 @@ const { getUserInformationToExport } = require("./LoginEndpoints");
 
 console.log("you reached stat.js");
 
-
 router.get("/HeartRate",async (req,res)=>{
-    res.send().status(200);
-    console.log("You are  here");}
+   res.send().status(200);
+    console.log("You are  here");
+    try {
+        
+        const user = await getUserInformationToExport();
+        const id = user.id;
+        const query = await client.query('SELECT result , datetime FROM heartratehistory where patientid = $1 ORDER BY datetime desc LIMIT 4;',[id]);
+        const result = (query).rows;
+        res.json(result);
+        
+    }catch(error){
+
+    }
+}
 );
-
-
-// router.get("/stat/HeartRate",async (req,res)=>{
-//    res.send().status(200);
-//     console.log("You are  here");
-//     try {
-        
-//         const user = await getUserInformationToExport();
-//         const id = user.id;
-//         const query = await client.query('SELECT result , datetime FROM heartratehistory where patientid = $1 ORDER BY datetime desc LIMIT 4;',[id]);
-//         const result = (query).rows;
-//         res.json(result);
-        
-//     }catch(error){
-
-//     }
-// }
-// );
 
 module.exports = router;
 
