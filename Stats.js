@@ -43,5 +43,5 @@ router.get('/stat/HeartRate',async (req,res)=>{
 }
 );
 
-
+module.exports = router;
 

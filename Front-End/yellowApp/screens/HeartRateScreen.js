@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import {
   View,
   Text,
@@ -37,7 +37,7 @@ const HeartRateScreen = () => {
        const response = await axios.get("https://ppd-project.onrender.com/api/stat/HeartRate"
       );
 
-      setHeartRateHistory((response).data);
+      setHeartRateHistory(response.data);
 
     } catch (error) {
       console.log(error);
