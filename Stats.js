@@ -30,7 +30,8 @@ router.use(bodyParser.json());
 
 
 router.get('/stat/HeartRate',async (req,res)=>{
-    console.log("You are fucking here");
+   res.send().status(200);
+    console.log("You are  here");
     try {
         
         const user = await getUserInformationToExport();
