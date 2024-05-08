@@ -9,10 +9,10 @@ const BloodSugarScreen = () => {
   const [unit, setUnit] = useState('mg/dL');
   const [status, setStatus] = useState('');
   const [bloodSugarHistory, setBloodSugarHistory] = useState([
-    { time: '04-06', bloodSugarLevel: 90 },
-    { time: '04-09', bloodSugarLevel: 95 },
-    { time: '04-10', bloodSugarLevel: 92 },
-    { time: '04-12', bloodSugarLevel: 88 },
+    { time: '04-06', bloodSugarLevel: 0 },
+    { time: '04-09', bloodSugarLevel: 0 },
+    { time: '04-10', bloodSugarLevel: 0 },
+    { time: '04-12', bloodSugarLevel: 0 },
     // Add more sample data as needed
   ]);
 

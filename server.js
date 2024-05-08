@@ -25,6 +25,11 @@ app.use("/api", ButtonsEndPoints); // using the other file's endpoints via route
 
 //======================================Buttons Logic===============================================
 
+const stat = require("./Stats");
+app.use("/api", stat); // using the other file's endpoints via router
+
+
+
 app.listen(Port, () => {
   console.log(`Server running on port ${Port}`);
 });

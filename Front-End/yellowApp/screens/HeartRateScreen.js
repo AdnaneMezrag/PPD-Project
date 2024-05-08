@@ -11,18 +11,41 @@ import {
 } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import GoBackArrow from "../components/GoBackArrow";
+import axios from "axios";
 
 const HeartRateScreen = () => {
   const [heartRate, setHeartRate] = useState("");
   const [sex, setSex] = useState("");
   const [age, setAge] = useState("");
   const [heartRateHistory, setHeartRateHistory] = useState([
-    { time: "04-06", heartRate: 70 },
-    { time: "04-09 ", heartRate: 75 },
-    { time: "04-10 ", heartRate: 72 },
-    { time: "04-12 ", heartRate: 78 },
+    { time: "04-06", heartRate: 0 },
+    { time: "04-09 ", heartRate: 0 },
+    { time: "04-10 ", heartRate: 0 },
+    { time: "04-12 ", heartRate: 0 },
     // Add more sample data as needed
   ]);
+
+  useEffect(() => {
+    
+   const render = Rerender();
+
+  }, [heartRateHistory]);
+
+  const Rerender = async ()=>{
+
+    try {
+       const response = await axios.get("https://ppd-project.onrender.com/api/stat/HeartRate"
+      );
+
+      setHeartRateHistory((response).data);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+
+
+  }
 
   const handleSubmissionInBackEnd = async () => {
     // Check if any field is empty
