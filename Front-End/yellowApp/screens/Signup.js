@@ -51,7 +51,7 @@ export default function Signup() {
 
   const handleSignUp = async () => {
     // Check if any field is empty
-    if (!firstName || !lastName || !dob || !id || !email || !password) {
+    if (!firstName || !lastName || !dob || !email || !password) {
       Alert.alert("Error", "Please enter all data.");
       return;
     }
