@@ -25,6 +25,7 @@ const client = new Client({
 
 client.connect();
 
+
 route.post("/", async (req, res) => {
   // recieving a request containing user data:{name,email,pswrd,DOB}(id will be generated auto)
 

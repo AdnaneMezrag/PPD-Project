@@ -27,12 +27,13 @@ client.connect();
 const { getUserInformationToExport } = require("./LoginEndpoints");
 router.use(bodyParser.json());
 
+console.log("you reached stat.js");
 
 
-router.get("/stat/HeartRate",async (req,res)=>{
+router.get("/HeartRate",async (req,res)=>{
     res.send().status(200);
     console.log("You are  here");}
- );
+);
 
 
 // router.get("/stat/HeartRate",async (req,res)=>{
