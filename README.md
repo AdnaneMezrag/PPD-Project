@@ -1,4 +1,1 @@
--GUI 99% DONE
--BACKEND 95% DONE
--FRONT TO BACK AND REVERSE LOGIC 99% DONE
--apk packaging todo
+Done
